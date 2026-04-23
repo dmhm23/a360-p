@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import {
@@ -29,10 +29,12 @@ import {
   History,
   MessageSquare,
   Star,
+  Settings,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HeroMedia } from "@/components/HeroMedia";
-import { heroMediaSrc, heroMediaType, heroMediaPoster } from "@/config/heroMedia";
+import { useHeroMedia } from "@/hooks/useHeroMedia";
+import { HeroMediaSettingsModal } from "@/components/HeroMediaSettingsModal";
 
 const benefits = [
   {
@@ -188,12 +190,16 @@ const plans = [
 ];
 
 export default function Landing() {
-  const { user, loading } = useAuth();
+  const { user, loading, role } = useAuth();
   const navigate = useNavigate();
+  const heroMedia = useHeroMedia();
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const isAdmin = role === "admin";
 
   useEffect(() => {
-    if (!loading && user) navigate("/dashboard", { replace: true });
-  }, [user, loading, navigate]);
+    // Admins permanecen en la landing para poder editar el medio del hero.
+    if (!loading && user && !isAdmin) navigate("/dashboard", { replace: true });
+  }, [user, loading, isAdmin, navigate]);
 
   const goSignup = () => navigate("/signup");
 
@@ -270,9 +276,9 @@ export default function Landing() {
           <div className="relative mx-auto mt-16 max-w-5xl animate-fade-in">
             <div className="overflow-hidden rounded-xl border border-border bg-card p-2 shadow-2xl shadow-primary/10">
               <HeroMedia
-                src={heroMediaSrc}
-                type={heroMediaType}
-                poster={heroMediaPoster}
+                src={heroMedia.src}
+                type={heroMedia.type}
+                poster={heroMedia.poster}
                 alt="Dashboard gerencial de Alturas360 mostrando matrículas, cartera y desempeño operativo de un centro de formación en trabajo seguro en alturas"
                 className="w-full rounded-lg"
               />
@@ -736,6 +742,25 @@ export default function Landing() {
           </p>
         </div>
       </footer>
+
+      {isAdmin && (
+        <>
+          <Button
+            size="icon"
+            onClick={() => setSettingsOpen(true)}
+            className="fixed bottom-6 right-6 z-40 h-12 w-12 rounded-full shadow-lg"
+            aria-label="Configurar medio del hero"
+            title="Configurar medio del hero"
+          >
+            <Settings className="h-5 w-5" />
+          </Button>
+          <HeroMediaSettingsModal
+            open={settingsOpen}
+            onOpenChange={setSettingsOpen}
+            current={{ src: heroMedia.src, type: heroMedia.type, poster: heroMedia.poster }}
+          />
+        </>
+      )}
     </div>
   );
 }
