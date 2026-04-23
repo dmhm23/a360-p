@@ -32,7 +32,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HeroMedia } from "@/components/HeroMedia";
-import heroAsset from "@/assets/hero-dashboard.png.asset.json";
+import { heroMediaSrc, heroMediaType, heroMediaPoster } from "@/config/heroMedia";
 
 const benefits = [
   {
@@ -270,8 +270,9 @@ export default function Landing() {
           <div className="relative mx-auto mt-16 max-w-5xl animate-fade-in">
             <div className="overflow-hidden rounded-xl border border-border bg-card p-2 shadow-2xl shadow-primary/10">
               <HeroMedia
-                src={heroAsset.url}
-                type="video"
+                src={heroMediaSrc}
+                type={heroMediaType}
+                poster={heroMediaPoster}
                 alt="Dashboard gerencial de Alturas360 mostrando matrículas, cartera y desempeño operativo de un centro de formación en trabajo seguro en alturas"
                 className="w-full rounded-lg"
               />
