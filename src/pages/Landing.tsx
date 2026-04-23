@@ -742,6 +742,25 @@ export default function Landing() {
           </p>
         </div>
       </footer>
+
+      {isAdmin && (
+        <>
+          <Button
+            size="icon"
+            onClick={() => setSettingsOpen(true)}
+            className="fixed bottom-6 right-6 z-40 h-12 w-12 rounded-full shadow-lg"
+            aria-label="Configurar medio del hero"
+            title="Configurar medio del hero"
+          >
+            <Settings className="h-5 w-5" />
+          </Button>
+          <HeroMediaSettingsModal
+            open={settingsOpen}
+            onOpenChange={setSettingsOpen}
+            current={{ src: heroMedia.src, type: heroMedia.type, poster: heroMedia.poster }}
+          />
+        </>
+      )}
     </div>
   );
 }
