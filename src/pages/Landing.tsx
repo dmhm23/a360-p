@@ -31,6 +31,7 @@ import {
   Star,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { HeroMedia } from "@/components/HeroMedia";
 import heroAsset from "@/assets/hero-dashboard.png.asset.json";
 
 const benefits = [
@@ -265,14 +266,13 @@ export default function Landing() {
             </p>
           </div>
 
-          {/* Hero image */}
+          {/* Hero media — soporta imagen y video automáticamente */}
           <div className="relative mx-auto mt-16 max-w-5xl animate-fade-in">
-            <div className="rounded-xl border border-border bg-card p-2 shadow-2xl shadow-primary/10">
-              <img
+            <div className="overflow-hidden rounded-xl border border-border bg-card p-2 shadow-2xl shadow-primary/10">
+              <HeroMedia
                 src={heroAsset.url}
                 alt="Dashboard gerencial de Alturas360 mostrando matrículas, cartera y desempeño operativo de un centro de formación en trabajo seguro en alturas"
                 className="w-full rounded-lg"
-                loading="eager"
               />
             </div>
             <div className="absolute -inset-4 -z-10 rounded-2xl bg-gradient-to-r from-primary/20 via-transparent to-primary/10 blur-3xl" />
