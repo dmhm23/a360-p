@@ -1,95 +1,74 @@
 
 
-# Landing oficial de Alturas360
+# Modal de configuración del medio del hero
 
-Voy a transformar la landing actual (QuoteKit) en la **landing comercial de Alturas360**, reutilizando la estructura de `src/pages/Landing.tsx` y reemplazando textos, jerarquía, módulos y CTAs. También actualizo el branding global (nombre, título, meta tags).
+Hoy `src/config/heroMedia.ts` es **código fuente estático**: solo se puede cambiar editando el archivo. Para que un modal cargue un archivo y "actualice el `heroMediaSrc` automáticamente", el medio tiene que vivir en almacenamiento, no en código. Propongo subirlo a **Lovable Cloud Storage** y leerlo en runtime, manteniendo `heroMedia.ts` solo como *fallback* por defecto.
 
-## Cambios de branding global
+## Flujo de usuario
 
-- **`index.html`**: `<title>` y meta tags (description, og:title, og:description, twitter) → "Alturas360 — Plataforma de gestión para centros de formación en trabajo seguro en alturas".
-- **Logo / nombre en nav y footer** dentro de `Landing.tsx`: "QuoteKit" → "Alturas360", icono `FileText` → `Mountain` (lucide), conservando el cuadro con color `bg-primary`.
-- Paleta y tipografías se conservan (Plus Jakarta Sans + DM Sans + primary azul) — encajan con tono SaaS ejecutivo.
-- La imagen `hero-dashboard.png` se mantiene como mockup de dashboard (representa el "Dashboard gerencial").
+1. En la landing aparece un botón flotante discreto (esquina inferior derecha, ícono engranaje) **solo visible para administradores autenticados**.
+2. Al hacer clic abre un modal "Configurar medio del hero" con:
+   - **Vista previa** del medio actual (imagen o video).
+   - **Zona de carga** con drag & drop + selector de archivo (acepta `.png .jpg .jpeg .webp .gif .mp4 .webm .mov`, máx. 20 MB).
+   - **Selector de tipo**: Auto (por extensión) / Imagen / Video.
+   - **Campo opcional de poster** (URL) para videos.
+   - Botones: **Guardar**, **Restaurar al medio por defecto**, **Cancelar**.
+3. Al guardar: se sube el archivo al bucket, se registra la URL en la tabla `site_settings`, y la landing actualiza el hero en vivo (sin refresh) gracias a Realtime.
 
-## Estructura final de `src/pages/Landing.tsx`
+## Arquitectura técnica
 
-Reutilizo el esqueleto existente y reorganizo en 10 secciones según el brief:
+### Backend (Lovable Cloud)
 
-```text
-Nav  →  Hero  →  Problema  →  Solución  →  Beneficios (con bloque promo)
-     →  Módulos  →  Diferenciadores  →  Confianza/Cumplimiento (franja CTA)
-     →  Pricing (3 planes)  →  Oferta 1 año gratis  →  CTA final  →  Footer
+**Bucket público de Storage** `site-media`:
+- Subida: solo admins (RLS verifica `has_role(auth.uid(), 'admin')`).
+- Lectura: pública (cualquiera puede ver la landing).
+
+**Tabla `site_settings`** (single-row, key/value para futuras configuraciones):
 ```
+id          uuid PK
+key         text UNIQUE         -- p.ej. 'hero_media'
+value       jsonb               -- { src, type, poster }
+updated_by  uuid
+updated_at  timestamptz
+```
+- RLS: `SELECT` público (anon), `INSERT/UPDATE` solo admins.
+- Realtime habilitado para que los cambios se reflejen sin recargar.
 
-### 1. Nav
-- Marca "Alturas360" + botones "Iniciar sesión" / "Solicitar 1 año gratis".
+### Frontend
 
-### 2. Hero
-- Pill superior: **"Oferta de lanzamiento · 1 año gratis para centros seleccionados"**.
-- H1: **Recupera el control y la rentabilidad de tu centro de entrenamiento**.
-- Sub: copy completo del brief sobre centralizar matrícula, cursos, documentos, cartera y certificación.
-- CTA primario: **Solicitar 1 año gratis** · Secundario: **Agendar una demo**.
-- Microcopy: *Implementación sin costo. Formación sin costo. Accede a 1 año gratis para tu centro.*
-- Mockup `hero-dashboard.png` con glow, igual que hoy.
+**Nuevo hook `src/hooks/useHeroMedia.ts`**:
+- Lee `site_settings` con clave `hero_media`.
+- Si no existe registro → devuelve los valores por defecto de `src/config/heroMedia.ts`.
+- Suscripción Realtime: actualiza estado cuando cambia el row.
 
-### 3. Problema — "La caja negra"
-- Reemplazo de "Social proof / logos" por un bloque oscuro/acento con headline **"Muchos centros operan como una caja negra"**, 3–4 viñetas (procesos manuales, dispersión documental, dependencia del equipo administrativo, poca visibilidad real) y cierre destacado: *"Cada reproceso, cada retraso y cada validación manual termina afectando margen, tiempo y capacidad de crecimiento."*
+**Nuevo componente `src/components/HeroMediaSettingsModal.tsx`**:
+- Usa `Dialog` de shadcn.
+- Maneja upload con `supabase.storage.from('site-media').upload(...)` (nombre con timestamp para evitar caché).
+- Llama `supabase.from('site_settings').upsert(...)` con la URL pública.
+- Toasts de éxito/error.
 
-### 4. Solución
-- Sustituye la sección "Features" actual por un bloque de 2 columnas: a la izquierda título **"De una operación dispersa a un sistema administrable"** + copy (especializado en el sector, integra académico/documental/financiero/certificación), a la derecha 4 mini-cards con íconos. Cierre promocional: *"Empieza sin fricción: implementación sin costo, formación sin costo y la posibilidad de solicitar 1 año gratis."*
+**Modificar `src/pages/Landing.tsx`**:
+- Reemplazar el import directo de `heroMediaSrc` por `useHeroMedia()`.
+- El componente `<HeroMedia />` recibe los valores del hook.
+- Renderizar un botón flotante (`fixed bottom-6 right-6`) con el ícono `Settings` que abre el modal — **condicionado a `user && role === 'admin'`** desde `useAuth()`.
 
-### 5. Beneficios (reutiliza grid de 6 features)
-- Grid 3×2 con iconos lucide actualizados:
-  - Más control sobre el estado real del centro (`Gauge`)
-  - Menos carga administrativa (`Workflow`)
-  - Continuidad operativa (`ShieldCheck`)
-  - Mejor seguimiento financiero (`LineChart`)
-  - Velocidad para ejecutar y cerrar procesos (`Zap`)
-  - Trazabilidad para decidir mejor (`Activity`)
-- Debajo, **bloque promocional destacado** (card con borde primary): "Empieza con 1 año gratis" + copy + CTA **"Quiero solicitar 1 año gratis"**.
+### Comportamiento del config file
 
-### 6. Módulos (reemplaza "How it works")
-- Grid de 8 tarjetas (Matrículas, Cursos y programación, Gestión documental, Firma digital, Cartera, Certificación, Portal del estudiante, Dashboard gerencial), cada una con ícono + título + 1 línea orientada a valor (no técnica).
+`src/config/heroMedia.ts` se mantiene como fallback inicial (lo que se ve antes de que un admin suba algo). No se modifica en runtime — eso ya no es necesario porque la fuente de verdad pasa a ser la base de datos.
 
-### 7. Diferenciadores (reutiliza checklist)
-- Headline **"No es software genérico. Es estructura para administrar mejor."**
-- Lista con `CheckCircle2`: especialización sector alturas Colombia, visión integral, orden para un negocio exigente, resiliencia frente a rotación administrativa, adopción más fácil con 1 año gratis.
+## Archivos afectados
 
-### 8. Confianza / Cumplimiento + franja CTA
-- Sección con 4 pilares (Trazabilidad, Respaldo documental, Centralización, Capacidad de respuesta) en cards.
-- Franja CTA full-width con fondo `accent`: *"Empieza ahora sin costo de implementación ni formación. Solicita 1 año gratis para comenzar a transformar la operación de tu centro."* + botón **Solicitar 1 año gratis**.
+| Archivo | Acción |
+|---|---|
+| Migración SQL | Crear bucket `site-media` + tabla `site_settings` + políticas RLS + habilitar Realtime |
+| `src/hooks/useHeroMedia.ts` | Nuevo |
+| `src/components/HeroMediaSettingsModal.tsx` | Nuevo |
+| `src/pages/Landing.tsx` | Reemplazar uso directo del config por el hook + botón flotante para admins |
 
-### 9. Pricing — 3 planes
-- Tabla/cards comparativa con 3 columnas: **Despegue · Control+ · Dirección Pro**.
-- Plan central (Control+) destacado con badge "Más elegido" y borde primary.
-- Cada card muestra: nombre · "Ideal para…" · "Enfoque" (3–4 bullets cortos) · CTA.
-- Sin precios numéricos. CTAs según brief (los dos primeros: "Solicitar 1 año gratis"; Dirección Pro: "Hablar con un asesor").
-- Franja debajo: *"Promoción de lanzamiento: implementación sin costo, formación sin costo y 1 año gratis para centros seleccionados."*
+## Detalles importantes
 
-### 10. Sección oferta "1 año gratis"
-- Bloque dedicado con fondo gradiente: explica por qué se postergan decisiones (costo / implementación) y cómo Alturas360 baja la barrera.
-- Tres bullets con íconos: 1 año gratis · Implementación sin costo · Formación inicial sin costo.
-- CTA: **Postular mi centro al año gratis**.
-- Microcopy: *Sujeto a disponibilidad y validación comercial.*
-
-### 11. CTA final
-- Headline grande **"Deja de administrar a ciegas"** + copy de apoyo del brief.
-- Botones: **Solicitar 1 año gratis** / **Agendar una demo**.
-- Microcopy: *Implementación sin costo. Formación sin costo. Cupos limitados para el beneficio de 1 año gratis.*
-
-### 12. Footer
-- Logo Alturas360 + © año + línea fina con "Plataforma para centros de formación en trabajo seguro en alturas · Colombia".
-
-## Comportamiento de los CTAs
-
-Como aún no existen rutas de "demo" ni "postulación", todos los CTAs comerciales (`Solicitar 1 año gratis`, `Agendar una demo`, `Postular mi centro`, `Hablar con un asesor`) apuntarán a `/signup` (mismo destino que tiene hoy "Get started"). Así el flujo queda funcional sin romper rutas. Más adelante puedes pedirme reemplazar esos CTAs por un formulario de postulación o un enlace a Calendly.
-
-## Detalles técnicos
-
-- Solo se modifican: `src/pages/Landing.tsx` (reescritura del contenido, conservando layout/tokens/animaciones existentes) e `index.html` (title + meta).
-- No se tocan rutas (`App.tsx`), auth, ni el resto del producto.
-- Se mantienen tokens semánticos (`bg-primary`, `text-muted-foreground`, `border-border`, `bg-accent`, gradients) — sin colores hardcoded.
-- Todo el copy queda en español, listo para producción (sin placeholders).
-- Iconos nuevos importados desde `lucide-react` (`Mountain`, `Gauge`, `Workflow`, `ShieldCheck`, `LineChart`, `Zap`, `Activity`, `GraduationCap`, `CalendarDays`, `FileSignature`, `Wallet`, `Award`, `UserCircle2`, `LayoutDashboard`, `FolderLock`).
-- Responsive: se conservan los breakpoints actuales (grids `sm:grid-cols-2 lg:grid-cols-3/4`) y CTAs full-width en mobile.
+- **Límite de tamaño**: 20 MB en frontend (validación), reforzado por el bucket. Si necesitas videos más pesados, conviene subir a un CDN externo y pegar URL — puedo agregar esa pestaña al modal si lo deseas.
+- **Caché**: añado `?v=timestamp` a la URL guardada para que el navegador no muestre el medio anterior.
+- **Visibilidad del botón**: solo admins logueados. Visitantes anónimos jamás ven el engranaje. Si prefieres una ruta dedicada (p.ej. `/settings/landing`) en lugar de un botón flotante en la landing pública, dímelo.
+- **Sin precios numéricos ni cambios de copy** — esta tarea es puramente de infraestructura para el medio del hero.
 
