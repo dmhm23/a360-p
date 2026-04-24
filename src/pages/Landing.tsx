@@ -217,8 +217,19 @@ export default function Landing() {
             </span>
           </div>
           <div className="flex items-center gap-3">
+            {isAdmin && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setSettingsOpen(true)}
+                className="hidden sm:inline-flex"
+              >
+                <Settings className="mr-2 h-4 w-4" />
+                Editar medio
+              </Button>
+            )}
             <Button variant="ghost" size="sm" onClick={() => navigate("/login")}>
-              Iniciar sesión
+              {user ? "Mi cuenta" : "Iniciar sesión"}
             </Button>
             <Button size="sm" onClick={goSignup}>
               Solicitar 1 año gratis
@@ -743,16 +754,15 @@ export default function Landing() {
         </div>
       </footer>
 
-      {isAdmin && (
+      {isAdmin ? (
         <>
           <Button
-            size="icon"
             onClick={() => setSettingsOpen(true)}
-            className="fixed bottom-6 right-6 z-40 h-12 w-12 rounded-full shadow-lg"
+            className="fixed bottom-6 right-6 z-40 h-12 rounded-full px-5 shadow-lg"
             aria-label="Configurar medio del hero"
-            title="Configurar medio del hero"
           >
-            <Settings className="h-5 w-5" />
+            <Settings className="mr-2 h-5 w-5" />
+            Editar medio del hero
           </Button>
           <HeroMediaSettingsModal
             open={settingsOpen}
@@ -760,7 +770,18 @@ export default function Landing() {
             current={{ src: heroMedia.src, type: heroMedia.type, poster: heroMedia.poster }}
           />
         </>
-      )}
+      ) : !user ? (
+        <Button
+          variant="secondary"
+          size="sm"
+          onClick={() => navigate("/login")}
+          className="fixed bottom-6 right-6 z-40 rounded-full shadow-lg opacity-80 hover:opacity-100"
+          title="Inicia sesión como admin para editar el medio del hero"
+        >
+          <Settings className="mr-2 h-4 w-4" />
+          Admin
+        </Button>
+      ) : null}
     </div>
   );
 }
