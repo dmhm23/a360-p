@@ -217,8 +217,19 @@ export default function Landing() {
             </span>
           </div>
           <div className="flex items-center gap-3">
+            {isAdmin && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setSettingsOpen(true)}
+                className="hidden sm:inline-flex"
+              >
+                <Settings className="mr-2 h-4 w-4" />
+                Editar medio
+              </Button>
+            )}
             <Button variant="ghost" size="sm" onClick={() => navigate("/login")}>
-              Iniciar sesión
+              {user ? "Mi cuenta" : "Iniciar sesión"}
             </Button>
             <Button size="sm" onClick={goSignup}>
               Solicitar 1 año gratis
