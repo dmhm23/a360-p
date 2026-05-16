@@ -373,10 +373,10 @@ export default function Landing() {
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="font-display text-3xl font-bold text-foreground sm:text-4xl">
-              Beneficios concretos para tu centro
+              Resultados que vas a sentir en los primeros 90 días
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              Más allá del software: una forma más profesional y rentable de administrar tu operación.
+              No más software. Una operación más rápida, más limpia y más rentable.
             </p>
           </div>
           <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
