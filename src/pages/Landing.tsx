@@ -246,7 +246,7 @@ export default function Landing() {
               documentos, cartera y certificación para que tu centro funcione
               con más eficiencia, control y conciencia real del negocio.
             </p>
-            <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+            <div className="mt-8 flex flex-col items-center gap-3 sm:mt-10 sm:flex-row sm:justify-center sm:gap-4">
               <Button
                 size="lg"
                 className="h-12 px-8 text-base w-full sm:w-auto"
