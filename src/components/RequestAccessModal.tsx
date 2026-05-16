@@ -194,9 +194,11 @@ export function RequestAccessModal({ open, onOpenChange }: Props) {
                   id="accepted_privacy_policy"
                   checked={!!accepted}
                   onCheckedChange={(v) =>
-                    setValue("accepted_privacy_policy", v === true as unknown as true, {
-                      shouldValidate: true,
-                    })
+                    setValue(
+                      "accepted_privacy_policy",
+                      (v === true) as true,
+                      { shouldValidate: true },
+                    )
                   }
                   className="mt-0.5"
                 />
