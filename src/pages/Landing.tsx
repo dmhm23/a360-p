@@ -639,17 +639,63 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* FAQ */}
+      <section className="border-t border-border bg-muted/40 py-16 sm:py-24">
+        <div className="mx-auto max-w-3xl px-4 sm:px-6">
+          <div className="text-center">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted-foreground">
+              <HelpCircle className="h-3.5 w-3.5 text-primary" />
+              Preguntas frecuentes
+            </div>
+            <h2 className="font-display text-3xl font-bold text-foreground sm:text-4xl">
+              Antes de postular, resolvamos lo importante
+            </h2>
+          </div>
+
+          <div className="mt-10 space-y-4">
+            {[
+              {
+                q: "¿Qué pasa cuando termina el año gratis?",
+                a: "Decides si sigues. Sin permanencia, sin recargos y sin sorpresas. Si no continúas, exportas tus datos y te ayudamos a migrar.",
+              },
+              {
+                q: "¿Migran los datos que tengo hoy en Excel u otro sistema?",
+                a: "Sí, sin costo adicional. Tu equipo no copia nada a mano: nosotros llevamos estudiantes, cursos, cartera y documentos al sistema.",
+              },
+              {
+                q: "¿Cuánto tarda la implementación?",
+                a: "Entre 2 y 4 semanas según el tamaño del centro. Incluye configuración, migración y formación del equipo administrativo.",
+              },
+              {
+                q: "¿Mis datos están seguros?",
+                a: "Información cifrada, respaldo diario y exportable cuando quieras. Cumplimos con buenas prácticas para auditorías y entes reguladores.",
+              },
+            ].map((item) => (
+              <div
+                key={item.q}
+                className="rounded-xl border border-border bg-card p-5 sm:p-6"
+              >
+                <h3 className="font-display text-base font-semibold text-foreground sm:text-lg">
+                  {item.q}
+                </h3>
+                <p className="mt-2 text-sm text-muted-foreground sm:text-base">
+                  {item.a}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA final */}
       <section className="relative overflow-hidden border-t border-border py-16 sm:py-24">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent to-primary/5" />
         <div className="relative mx-auto max-w-6xl px-4 text-center sm:px-6">
           <h2 className="font-display text-3xl font-bold text-foreground sm:text-5xl">
-            Deja de administrar a ciegas
+            Empieza el 2026 con tu centro funcionando mejor
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-lg text-muted-foreground">
-            Alturas360 ayuda a reducir carga administrativa, fortalecer
-            trazabilidad y profesionalizar la gestión de tu centro de
-            entrenamiento.
+            1 año gratis. Cupos limitados. Sin tarjeta. Respuesta en 24 horas.
           </p>
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Button
@@ -657,21 +703,12 @@ export default function Landing() {
               className="h-12 px-8 text-base w-full sm:w-auto"
               onClick={goSignup}
             >
-              Solicitar 1 año gratis
+              Postular mi centro
               <ArrowRight className="ml-1 h-4 w-4" />
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="h-12 px-8 text-base w-full sm:w-auto"
-              onClick={goSignup}
-            >
-              <MessageSquare className="mr-1 h-4 w-4" />
-              Agendar una demo
             </Button>
           </div>
           <p className="mt-6 text-sm text-muted-foreground">
-            Implementación sin costo. Formación sin costo. Cupos limitados para el beneficio de 1 año gratis.
+            Implementación incluida · Formación incluida · Solo 10 cupos para 2026
           </p>
         </div>
       </section>
