@@ -233,7 +233,7 @@ export default function Landing() {
               <Sparkles className="h-3.5 w-3.5 text-primary" />
               Oferta de lanzamiento · 1 año gratis para centros seleccionados
             </div>
-            <h1 className="font-display text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+            <h1 className="font-display text-3xl font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
               Recupera el control y la{" "}
               <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
                 rentabilidad
