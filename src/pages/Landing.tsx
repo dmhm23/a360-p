@@ -415,7 +415,7 @@ export default function Landing() {
                 </p>
               </div>
               <Button size="lg" className="h-12 px-8 w-full lg:w-auto" onClick={goSignup}>
-                Quiero solicitar 1 año gratis
+                Quiero mi cupo gratis
                 <ArrowRight className="ml-1 h-4 w-4" />
               </Button>
             </div>
