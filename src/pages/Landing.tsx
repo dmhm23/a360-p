@@ -208,10 +208,7 @@ export default function Landing() {
       <nav className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-lg">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
           <div className="flex items-center gap-2">
-            <Logo className="h-8 w-auto" />
-            <span className="font-display text-lg font-bold text-foreground">
-              Alturas360
-            </span>
+            <Logo className="h-[2.6rem] w-auto" />
           </div>
           <div className="flex items-center gap-3">
             {SHOW_LOGIN && (
@@ -727,10 +724,7 @@ export default function Landing() {
       <footer className="border-t border-border py-10">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 sm:flex-row">
           <div className="flex items-center gap-2">
-            <Logo className="h-6 w-auto" />
-            <span className="font-display text-sm font-semibold text-foreground">
-              Alturas360
-            </span>
+            <Logo className="h-[1.95rem] w-auto" />
           </div>
           <p className="text-center text-xs text-muted-foreground sm:text-right">
             Plataforma para centros de formación en trabajo seguro en alturas · Colombia
