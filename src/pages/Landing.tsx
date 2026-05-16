@@ -461,10 +461,10 @@ export default function Landing() {
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
             <h2 className="font-display text-3xl font-bold text-foreground sm:text-4xl">
-              No es software genérico. Es estructura para administrar mejor.
+              Por qué Alturas360 y no otro software
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              Construido para la realidad operativa de los centros de formación en trabajo seguro en alturas.
+              Hecho para la realidad regulatoria colombiana y la operación específica de un centro de trabajo seguro en alturas.
             </p>
             <ul className="mt-10 grid w-full gap-4 text-left sm:grid-cols-2">
               {differentiators.map((item) => (
