@@ -326,23 +326,16 @@ export default function Landing() {
                 La solución
               </div>
               <h2 className="font-display text-3xl font-bold text-foreground sm:text-4xl">
-                De una operación dispersa a un sistema administrable
+                Una plataforma. Cuatro áreas integradas. Cero archivos perdidos.
               </h2>
               <p className="mt-5 text-lg text-muted-foreground">
-                Alturas360 está diseñado específicamente para centros de
-                formación en trabajo seguro en alturas. No es un software
-                genérico: integra lo académico, documental, financiero y de
-                certificación en un solo lugar para que dejes de operar por
-                partes.
-              </p>
-              <p className="mt-5 rounded-lg border border-primary/20 bg-accent/60 p-4 text-sm text-foreground">
-                <strong className="font-semibold">Empieza sin fricción:</strong>{" "}
-                implementación sin costo, formación sin costo y la posibilidad
-                de solicitar 1 año gratis.
+                Académico + Documental + Financiero + Certificación.
+                Diseñado para la realidad regulatoria colombiana y la operación
+                de un centro de trabajo seguro en alturas.
               </p>
               <div className="mt-8">
                 <Button size="lg" onClick={goSignup}>
-                  Solicitar 1 año gratis
+                  Quiero mi cupo gratis
                   <ArrowRight className="ml-1 h-4 w-4" />
                 </Button>
               </div>
