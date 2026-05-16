@@ -26,8 +26,8 @@ import {
   Layers,
   Database,
   History,
-  MessageSquare,
   Star,
+  HelpCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HeroMedia } from "@/components/HeroMedia";
@@ -41,40 +41,40 @@ import { SHOW_LOGIN } from "@/config/featureFlags";
 
 const benefits = [
   {
-    icon: Gauge,
-    title: "Más control sobre el negocio",
+    icon: Zap,
+    title: "Matricula 3× más rápido",
     description:
-      "Visibilidad real del estado operativo y financiero de tu centro, sin depender de reportes manuales.",
+      "Del Excel al sistema en menos de 5 minutos por estudiante, con validación documental y pago en un solo flujo.",
   },
   {
-    icon: Workflow,
-    title: "Menos carga administrativa",
+    icon: Award,
+    title: "Cero certificados perdidos",
     description:
-      "Automatiza procesos repetitivos y libera al equipo para tareas que realmente generan valor.",
+      "Emitidos, firmados y verificables online, sin depender de carpetas, correos ni mensajes sueltos.",
+  },
+  {
+    icon: Wallet,
+    title: "Cartera al día",
+    description:
+      "Alertas automáticas de vencimiento y recaudo para que el dinero deje de quedarse en el camino.",
+  },
+  {
+    icon: Users,
+    title: "Tu equipo deja de ser cuello de botella",
+    description:
+      "Procesos que no dependen de una persona: si alguien falta, la operación no se frena.",
   },
   {
     icon: ShieldCheck,
-    title: "Continuidad operativa",
+    title: "Listo para auditorías",
     description:
-      "Procesos estandarizados que no dependen de una persona específica del equipo administrativo.",
+      "Historial completo y exportable en segundos. Responde a ARL, clientes y entes reguladores con evidencia.",
   },
   {
     icon: LineChart,
-    title: "Mejor seguimiento financiero",
+    title: "Decide con datos reales",
     description:
-      "Cartera, recaudo y rentabilidad por curso o programa, en un solo lugar y siempre actualizado.",
-  },
-  {
-    icon: Zap,
-    title: "Velocidad para ejecutar",
-    description:
-      "Cierra matrículas, emite certificados y resuelve trámites en menos pasos y con menos fricción.",
-  },
-  {
-    icon: Activity,
-    title: "Trazabilidad para decidir mejor",
-    description:
-      "Cada acción queda registrada, auditable y disponible para tomar decisiones con datos, no con suposiciones.",
+      "Rentabilidad por curso, ocupación y proyección en vivo. Deja de gestionar el centro a ciegas.",
   },
 ];
 
@@ -82,52 +82,50 @@ const modules = [
   {
     icon: GraduationCap,
     title: "Matrículas",
-    description: "Inscribe estudiantes en minutos, con validación documental y pagos en un solo flujo.",
+    description: "Inscribe estudiantes en minutos, con documentos y pago en un solo flujo.",
   },
   {
     icon: CalendarDays,
     title: "Cursos y programación",
-    description: "Planifica grupos, instructores y horarios con visibilidad total de la ocupación real.",
+    description: "Planifica grupos, instructores y horarios con visibilidad real de ocupación.",
   },
   {
     icon: FolderLock,
     title: "Gestión documental",
-    description: "Centraliza historiales, soportes y requisitos legales sin perder tiempo buscando archivos.",
+    description: "Historiales, soportes y requisitos legales centralizados.",
   },
   {
     icon: FileSignature,
     title: "Firma digital",
-    description: "Formaliza acuerdos y consentimientos sin papel, con respaldo legal y trazabilidad.",
+    description: "Formaliza acuerdos sin papel, con respaldo legal y trazabilidad.",
   },
   {
     icon: Wallet,
     title: "Cartera",
-    description: "Controla saldos, recaudo y vencimientos por estudiante para mejorar el flujo de caja.",
+    description: "Saldos, recaudo y vencimientos por estudiante en tiempo real.",
   },
   {
     icon: Award,
     title: "Certificación",
-    description: "Emite certificados verificables, con control de versiones y registro de cumplimiento.",
+    description: "Certificados verificables, con control de versiones y cumplimiento.",
   },
   {
     icon: UserCircle2,
     title: "Portal del estudiante",
-    description: "Tus alumnos consultan sus cursos, documentos y certificados sin saturar a tu equipo.",
+    description: "Tus alumnos consultan cursos, documentos y certificados sin saturar al equipo.",
   },
   {
     icon: LayoutDashboard,
     title: "Dashboard gerencial",
-    description: "Una vista clara del negocio: ingresos, ocupación, cartera y desempeño operativo en tiempo real.",
+    description: "Ingresos, ocupación, cartera y desempeño operativo en una sola vista.",
   },
 ];
 
 const differentiators = [
-  "Especializado en centros de formación en trabajo seguro en alturas en Colombia",
-  "Visión integral de la operación: académica, documental, financiera y de certificación",
-  "Más orden para un negocio exigente y altamente regulado",
-  "Mayor resiliencia operativa frente a la rotación administrativa",
-  "Adopción más fácil gracias a la oferta de 1 año gratis",
-  "Acompañamiento real durante implementación y formación inicial",
+  "Único software vertical para centros de trabajo seguro en alturas en Colombia",
+  "Alineado con la Resolución 4272 de 2021 del Ministerio del Trabajo",
+  "Implementación y formación incluidas, sin costo durante el lanzamiento",
+  "Empieza esta semana, sin pagos",
 ];
 
 const trustPillars = [
@@ -163,7 +161,7 @@ const plans = [
       "Portal del estudiante",
       "Soporte de implementación",
     ],
-    cta: "Solicitar 1 año gratis",
+    cta: "Quiero mi cupo gratis",
     highlighted: false,
   },
   {
@@ -175,7 +173,7 @@ const plans = [
       "Firma digital y certificación",
       "Dashboard gerencial",
     ],
-    cta: "Solicitar 1 año gratis",
+    cta: "Quiero mi cupo gratis",
     highlighted: true,
   },
   {
@@ -231,20 +229,18 @@ export default function Landing() {
           <div className="mx-auto max-w-3xl text-center">
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-sm text-muted-foreground">
               <Sparkles className="h-3.5 w-3.5 text-primary" />
-              Oferta de lanzamiento · 1 año gratis para centros seleccionados
+              Oferta de lanzamiento · Solo 10 cupos para 2026
             </div>
             <h1 className="font-display text-3xl font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-              Recupera el control y la{" "}
+              El software para centros de trabajo seguro en alturas que ordena tu operación y multiplica tu{" "}
               <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
                 rentabilidad
-              </span>{" "}
-              de tu centro de entrenamiento
+              </span>
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-base text-muted-foreground sm:mt-6 sm:text-xl">
-              Alturas360 convierte una operación dispersa en un sistema claro,
-              trazable y administrable. Centraliza matrícula, cursos,
-              documentos, cartera y certificación para que tu centro funcione
-              con más eficiencia, control y conciencia real del negocio.
+              Matrícula, cursos, cartera y certificación —cumpliendo la
+              Resolución 4272— en una sola plataforma. Empieza con 1 año gratis,
+              sin costo de implementación ni formación.
             </p>
             <div className="mt-8 flex flex-col items-center gap-3 sm:mt-10 sm:flex-row sm:justify-center sm:gap-4">
               <Button
@@ -252,20 +248,12 @@ export default function Landing() {
                 className="h-12 px-8 text-base w-full sm:w-auto"
                 onClick={goSignup}
               >
-                Solicitar 1 año gratis
+                Quiero mi cupo gratis
                 <ArrowRight className="ml-1 h-4 w-4" />
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="h-12 px-8 text-base w-full sm:w-auto"
-                onClick={goSignup}
-              >
-                Agendar una demo
               </Button>
             </div>
             <p className="mt-6 text-sm text-muted-foreground">
-              Implementación sin costo. Formación sin costo. Accede a 1 año gratis para tu centro.
+              Sin tarjeta · Implementación incluida · Respuesta en 24 horas
             </p>
           </div>
 
@@ -285,7 +273,7 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Problema — La caja negra */}
+      {/* Problema — checklist */}
       <section className="border-y border-border bg-muted/50 py-16 sm:py-20">
         <div className="mx-auto max-w-5xl px-4 sm:px-6">
           <div className="mx-auto max-w-2xl text-center">
@@ -294,59 +282,34 @@ export default function Landing() {
               El problema real
             </div>
             <h2 className="font-display text-3xl font-bold text-foreground sm:text-4xl">
-              Muchos centros operan como una caja negra
+              ¿Tu centro funciona así hoy?
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              La utilidad baja, pero no siempre se sabe con claridad por qué.
-              Muchas veces el problema no es comercial: está en la operación.
+              La utilidad baja, pero no siempre se sabe por qué. Casi siempre el
+              problema no es comercial: está en la operación.
             </p>
           </div>
 
-          <div className="mt-12 grid gap-5 sm:grid-cols-2">
+          <ul className="mx-auto mt-10 grid max-w-3xl gap-3 sm:grid-cols-2">
             {[
-              {
-                icon: Workflow,
-                title: "Procesos manuales y repetitivos",
-                description: "Tareas críticas resueltas en hojas de cálculo, correos y mensajes sueltos.",
-              },
-              {
-                icon: FileX2,
-                title: "Dispersión documental",
-                description: "Soportes, contratos y certificaciones repartidos entre carpetas, equipos y personas.",
-              },
-              {
-                icon: Users,
-                title: "Dependencia del equipo administrativo",
-                description: "Si una persona se va o se enferma, la operación se frena o pierde calidad.",
-              },
-              {
-                icon: EyeOff,
-                title: "Poca visibilidad real del negocio",
-                description: "Cuesta saber cuánto se está ganando, qué cursos rinden y dónde se están perdiendo recursos.",
-              },
+              "Matrículas en Excel y WhatsApp",
+              "Certificados que tardan días en emitirse",
+              "Cartera vencida que nadie persigue",
+              "Si falta una persona del equipo, todo se frena",
             ].map((item) => (
-              <div
-                key={item.title}
-                className="flex gap-4 rounded-xl border border-border bg-card p-5"
+              <li
+                key={item}
+                className="flex items-start gap-3 rounded-xl border border-border bg-card p-4"
               >
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-foreground">
-                  <item.icon className="h-5 w-5" />
-                </div>
-                <div>
-                  <h3 className="font-display text-base font-semibold text-foreground">
-                    {item.title}
-                  </h3>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    {item.description}
-                  </p>
-                </div>
-              </div>
+                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
+                <span className="text-base text-foreground">{item}</span>
+              </li>
             ))}
-          </div>
+          </ul>
 
-          <div className="mt-12 rounded-xl border border-primary/30 bg-primary/5 p-6 text-center sm:p-8">
+          <div className="mt-10 rounded-xl border border-primary/30 bg-primary/5 p-6 text-center sm:p-8">
             <p className="font-display text-xl font-semibold text-foreground sm:text-2xl">
-              Cada reproceso, cada retraso y cada validación manual termina afectando margen, tiempo y capacidad de crecimiento.
+              Eso no es un problema comercial. Es un problema operativo —y tiene solución.
             </p>
           </div>
         </div>
@@ -362,23 +325,16 @@ export default function Landing() {
                 La solución
               </div>
               <h2 className="font-display text-3xl font-bold text-foreground sm:text-4xl">
-                De una operación dispersa a un sistema administrable
+                Una plataforma. Cuatro áreas integradas. Cero archivos perdidos.
               </h2>
               <p className="mt-5 text-lg text-muted-foreground">
-                Alturas360 está diseñado específicamente para centros de
-                formación en trabajo seguro en alturas. No es un software
-                genérico: integra lo académico, documental, financiero y de
-                certificación en un solo lugar para que dejes de operar por
-                partes.
-              </p>
-              <p className="mt-5 rounded-lg border border-primary/20 bg-accent/60 p-4 text-sm text-foreground">
-                <strong className="font-semibold">Empieza sin fricción:</strong>{" "}
-                implementación sin costo, formación sin costo y la posibilidad
-                de solicitar 1 año gratis.
+                Académico + Documental + Financiero + Certificación.
+                Diseñado para la realidad regulatoria colombiana y la operación
+                de un centro de trabajo seguro en alturas.
               </p>
               <div className="mt-8">
                 <Button size="lg" onClick={goSignup}>
-                  Solicitar 1 año gratis
+                  Quiero mi cupo gratis
                   <ArrowRight className="ml-1 h-4 w-4" />
                 </Button>
               </div>
@@ -416,10 +372,10 @@ export default function Landing() {
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="font-display text-3xl font-bold text-foreground sm:text-4xl">
-              Beneficios concretos para tu centro
+              Resultados que vas a sentir en los primeros 90 días
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              Más allá del software: una forma más profesional y rentable de administrar tu operación.
+              No más software. Una operación más rápida, más limpia y más rentable.
             </p>
           </div>
           <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -459,7 +415,7 @@ export default function Landing() {
                 </p>
               </div>
               <Button size="lg" className="h-12 px-8 w-full lg:w-auto" onClick={goSignup}>
-                Quiero solicitar 1 año gratis
+                Quiero mi cupo gratis
                 <ArrowRight className="ml-1 h-4 w-4" />
               </Button>
             </div>
@@ -504,10 +460,10 @@ export default function Landing() {
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
             <h2 className="font-display text-3xl font-bold text-foreground sm:text-4xl">
-              No es software genérico. Es estructura para administrar mejor.
+              Por qué Alturas360 y no otro software
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              Construido para la realidad operativa de los centros de formación en trabajo seguro en alturas.
+              Hecho para la realidad regulatoria colombiana y la operación específica de un centro de trabajo seguro en alturas.
             </p>
             <ul className="mt-10 grid w-full gap-4 text-left sm:grid-cols-2">
               {differentiators.map((item) => (
@@ -553,14 +509,14 @@ export default function Landing() {
             <div className="flex flex-col items-start gap-6 lg:flex-row lg:items-center lg:justify-between">
               <div className="max-w-2xl">
                 <h3 className="font-display text-2xl font-bold text-foreground sm:text-3xl">
-                  Empieza ahora sin costo de implementación ni formación
+                  Empieza esta semana, sin pagos
                 </h3>
                 <p className="mt-3 text-base text-muted-foreground">
-                  Solicita 1 año gratis para comenzar a transformar la operación de tu centro.
+                  Implementación y formación incluidas. Postula tu centro para 1 año gratis.
                 </p>
               </div>
               <Button size="lg" className="h-12 px-8 w-full lg:w-auto" onClick={goSignup}>
-                Solicitar 1 año gratis
+                Quiero mi cupo gratis
                 <ArrowRight className="ml-1 h-4 w-4" />
               </Button>
             </div>
@@ -625,8 +581,8 @@ export default function Landing() {
 
           <div className="mt-12 rounded-xl border border-primary/30 bg-primary/5 p-5 text-center">
             <p className="text-sm font-medium text-foreground sm:text-base">
-              <span className="font-semibold text-primary">Promoción de lanzamiento:</span>{" "}
-              implementación sin costo, formación sin costo y 1 año gratis para centros seleccionados.
+              <span className="font-semibold text-primary">Precio personalizado</span>{" "}
+              según el número de estudiantes de tu centro. Todos los planes incluyen 1 año gratis durante la oferta de lanzamiento.
             </p>
           </div>
         </div>
@@ -640,16 +596,14 @@ export default function Landing() {
             <div className="mx-auto max-w-3xl text-center">
               <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground">
                 <Sparkles className="h-3.5 w-3.5" />
-                Beneficio para centros seleccionados
+                Cupos limitados
               </div>
               <h2 className="font-display text-3xl font-bold text-foreground sm:text-4xl">
-                1 año gratis para validar el impacto en tu operación real
+                Solo 10 centros entran a la oferta 2026
               </h2>
               <p className="mt-5 text-lg text-muted-foreground">
-                Muchos centros postergan la decisión por miedo al costo o a la
-                implementación. Alturas360 baja esa barrera de entrada para que
-                puedas probar el sistema en tu operación real, con
-                acompañamiento desde el primer día.
+                Implementación sin costo. Formación sin costo. 1 año completo
+                sin pagar licencia. Postulación abierta hasta agotar cupos.
               </p>
             </div>
 
@@ -684,17 +638,63 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* FAQ */}
+      <section className="border-t border-border bg-muted/40 py-16 sm:py-24">
+        <div className="mx-auto max-w-3xl px-4 sm:px-6">
+          <div className="text-center">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted-foreground">
+              <HelpCircle className="h-3.5 w-3.5 text-primary" />
+              Preguntas frecuentes
+            </div>
+            <h2 className="font-display text-3xl font-bold text-foreground sm:text-4xl">
+              Antes de postular, resolvamos lo importante
+            </h2>
+          </div>
+
+          <div className="mt-10 space-y-4">
+            {[
+              {
+                q: "¿Qué pasa cuando termina el año gratis?",
+                a: "Decides si sigues. Sin permanencia, sin recargos y sin sorpresas. Si no continúas, exportas tus datos y te ayudamos a migrar.",
+              },
+              {
+                q: "¿Migran los datos que tengo hoy en Excel u otro sistema?",
+                a: "Sí, sin costo adicional. Tu equipo no copia nada a mano: nosotros llevamos estudiantes, cursos, cartera y documentos al sistema.",
+              },
+              {
+                q: "¿Cuánto tarda la implementación?",
+                a: "Entre 2 y 4 semanas según el tamaño del centro. Incluye configuración, migración y formación del equipo administrativo.",
+              },
+              {
+                q: "¿Mis datos están seguros?",
+                a: "Información cifrada, respaldo diario y exportable cuando quieras. Cumplimos con buenas prácticas para auditorías y entes reguladores.",
+              },
+            ].map((item) => (
+              <div
+                key={item.q}
+                className="rounded-xl border border-border bg-card p-5 sm:p-6"
+              >
+                <h3 className="font-display text-base font-semibold text-foreground sm:text-lg">
+                  {item.q}
+                </h3>
+                <p className="mt-2 text-sm text-muted-foreground sm:text-base">
+                  {item.a}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA final */}
       <section className="relative overflow-hidden border-t border-border py-16 sm:py-24">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent to-primary/5" />
         <div className="relative mx-auto max-w-6xl px-4 text-center sm:px-6">
           <h2 className="font-display text-3xl font-bold text-foreground sm:text-5xl">
-            Deja de administrar a ciegas
+            Empieza el 2026 con tu centro funcionando mejor
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-lg text-muted-foreground">
-            Alturas360 ayuda a reducir carga administrativa, fortalecer
-            trazabilidad y profesionalizar la gestión de tu centro de
-            entrenamiento.
+            1 año gratis. Cupos limitados. Sin tarjeta. Respuesta en 24 horas.
           </p>
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Button
@@ -702,21 +702,12 @@ export default function Landing() {
               className="h-12 px-8 text-base w-full sm:w-auto"
               onClick={goSignup}
             >
-              Solicitar 1 año gratis
+              Postular mi centro
               <ArrowRight className="ml-1 h-4 w-4" />
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="h-12 px-8 text-base w-full sm:w-auto"
-              onClick={goSignup}
-            >
-              <MessageSquare className="mr-1 h-4 w-4" />
-              Agendar una demo
             </Button>
           </div>
           <p className="mt-6 text-sm text-muted-foreground">
-            Implementación sin costo. Formación sin costo. Cupos limitados para el beneficio de 1 año gratis.
+            Implementación incluida · Formación incluida · Solo 10 cupos para 2026
           </p>
         </div>
       </section>
