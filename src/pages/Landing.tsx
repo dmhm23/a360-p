@@ -270,7 +270,7 @@ export default function Landing() {
           </div>
 
           {/* Hero media — soporta imagen y video automáticamente */}
-          <div className="relative mx-auto mt-16 max-w-5xl animate-fade-in">
+          <div className="relative mx-auto mt-10 max-w-5xl animate-fade-in sm:mt-16">
             <div className="overflow-hidden rounded-xl border border-border bg-card p-2 shadow-2xl shadow-primary/10">
               <HeroMedia
                 src={heroMediaSrc}
