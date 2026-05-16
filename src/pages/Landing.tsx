@@ -28,6 +28,7 @@ import {
   History,
   MessageSquare,
   Star,
+  HelpCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HeroMedia } from "@/components/HeroMedia";
