@@ -173,7 +173,7 @@ const plans = [
       "Firma digital y certificación",
       "Dashboard gerencial",
     ],
-    cta: "Solicitar 1 año gratis",
+    cta: "Quiero mi cupo gratis",
     highlighted: true,
   },
   {
