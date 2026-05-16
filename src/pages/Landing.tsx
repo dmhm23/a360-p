@@ -42,40 +42,40 @@ import { SHOW_LOGIN } from "@/config/featureFlags";
 
 const benefits = [
   {
-    icon: Gauge,
-    title: "Más control sobre el negocio",
+    icon: Zap,
+    title: "Matricula 3× más rápido",
     description:
-      "Visibilidad real del estado operativo y financiero de tu centro, sin depender de reportes manuales.",
+      "Del Excel al sistema en menos de 5 minutos por estudiante, con validación documental y pago en un solo flujo.",
   },
   {
-    icon: Workflow,
-    title: "Menos carga administrativa",
+    icon: Award,
+    title: "Cero certificados perdidos",
     description:
-      "Automatiza procesos repetitivos y libera al equipo para tareas que realmente generan valor.",
+      "Emitidos, firmados y verificables online, sin depender de carpetas, correos ni mensajes sueltos.",
+  },
+  {
+    icon: Wallet,
+    title: "Cartera al día",
+    description:
+      "Alertas automáticas de vencimiento y recaudo para que el dinero deje de quedarse en el camino.",
+  },
+  {
+    icon: Users,
+    title: "Tu equipo deja de ser cuello de botella",
+    description:
+      "Procesos que no dependen de una persona: si alguien falta, la operación no se frena.",
   },
   {
     icon: ShieldCheck,
-    title: "Continuidad operativa",
+    title: "Listo para auditorías",
     description:
-      "Procesos estandarizados que no dependen de una persona específica del equipo administrativo.",
+      "Historial completo y exportable en segundos. Responde a ARL, clientes y entes reguladores con evidencia.",
   },
   {
     icon: LineChart,
-    title: "Mejor seguimiento financiero",
+    title: "Decide con datos reales",
     description:
-      "Cartera, recaudo y rentabilidad por curso o programa, en un solo lugar y siempre actualizado.",
-  },
-  {
-    icon: Zap,
-    title: "Velocidad para ejecutar",
-    description:
-      "Cierra matrículas, emite certificados y resuelve trámites en menos pasos y con menos fricción.",
-  },
-  {
-    icon: Activity,
-    title: "Trazabilidad para decidir mejor",
-    description:
-      "Cada acción queda registrada, auditable y disponible para tomar decisiones con datos, no con suposiciones.",
+      "Rentabilidad por curso, ocupación y proyección en vivo. Deja de gestionar el centro a ciegas.",
   },
 ];
 
@@ -83,52 +83,50 @@ const modules = [
   {
     icon: GraduationCap,
     title: "Matrículas",
-    description: "Inscribe estudiantes en minutos, con validación documental y pagos en un solo flujo.",
+    description: "Inscribe estudiantes en minutos, con documentos y pago en un solo flujo.",
   },
   {
     icon: CalendarDays,
     title: "Cursos y programación",
-    description: "Planifica grupos, instructores y horarios con visibilidad total de la ocupación real.",
+    description: "Planifica grupos, instructores y horarios con visibilidad real de ocupación.",
   },
   {
     icon: FolderLock,
     title: "Gestión documental",
-    description: "Centraliza historiales, soportes y requisitos legales sin perder tiempo buscando archivos.",
+    description: "Historiales, soportes y requisitos legales centralizados.",
   },
   {
     icon: FileSignature,
     title: "Firma digital",
-    description: "Formaliza acuerdos y consentimientos sin papel, con respaldo legal y trazabilidad.",
+    description: "Formaliza acuerdos sin papel, con respaldo legal y trazabilidad.",
   },
   {
     icon: Wallet,
     title: "Cartera",
-    description: "Controla saldos, recaudo y vencimientos por estudiante para mejorar el flujo de caja.",
+    description: "Saldos, recaudo y vencimientos por estudiante en tiempo real.",
   },
   {
     icon: Award,
     title: "Certificación",
-    description: "Emite certificados verificables, con control de versiones y registro de cumplimiento.",
+    description: "Certificados verificables, con control de versiones y cumplimiento.",
   },
   {
     icon: UserCircle2,
     title: "Portal del estudiante",
-    description: "Tus alumnos consultan sus cursos, documentos y certificados sin saturar a tu equipo.",
+    description: "Tus alumnos consultan cursos, documentos y certificados sin saturar al equipo.",
   },
   {
     icon: LayoutDashboard,
     title: "Dashboard gerencial",
-    description: "Una vista clara del negocio: ingresos, ocupación, cartera y desempeño operativo en tiempo real.",
+    description: "Ingresos, ocupación, cartera y desempeño operativo en una sola vista.",
   },
 ];
 
 const differentiators = [
-  "Especializado en centros de formación en trabajo seguro en alturas en Colombia",
-  "Visión integral de la operación: académica, documental, financiera y de certificación",
-  "Más orden para un negocio exigente y altamente regulado",
-  "Mayor resiliencia operativa frente a la rotación administrativa",
-  "Adopción más fácil gracias a la oferta de 1 año gratis",
-  "Acompañamiento real durante implementación y formación inicial",
+  "Único software vertical para centros de trabajo seguro en alturas en Colombia",
+  "Alineado con la Resolución 4272 de 2021 del Ministerio del Trabajo",
+  "Implementación y formación incluidas, sin costo durante el lanzamiento",
+  "Empieza esta semana, sin pagos",
 ];
 
 const trustPillars = [
