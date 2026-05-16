@@ -724,7 +724,7 @@ export default function Landing() {
       <footer className="border-t border-border py-10">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 sm:flex-row">
           <div className="flex items-center gap-2">
-            <Logo className="h-[1.95rem] w-auto" />
+            <Logo className="h-10 w-auto" />
           </div>
           <p className="text-center text-xs text-muted-foreground sm:text-right">
             Plataforma para centros de formación en trabajo seguro en alturas · Colombia
