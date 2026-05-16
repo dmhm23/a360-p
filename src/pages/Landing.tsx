@@ -732,6 +732,13 @@ export default function Landing() {
               Alturas360
             </span>
           </div>
+          <p className="text-center text-xs text-muted-foreground sm:text-right">
+            Plataforma para centros de formación en trabajo seguro en alturas · Colombia
+            <br />
+            © {new Date().getFullYear()} Alturas360. Todos los derechos reservados.
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }
