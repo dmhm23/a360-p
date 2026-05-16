@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import {
@@ -32,6 +32,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { HeroMedia } from "@/components/HeroMedia";
 import { Logo } from "@/components/Logo";
+import { RequestAccessModal } from "@/components/RequestAccessModal";
 import {
   heroMediaSrc,
   heroMediaType,
@@ -198,7 +199,9 @@ export default function Landing() {
     if (!loading && user) navigate("/dashboard", { replace: true });
   }, [user, loading, navigate]);
 
-  const goSignup = () => navigate("/signup");
+  const [requestOpen, setRequestOpen] = useState(false);
+  const openRequest = () => setRequestOpen(true);
+  const goSignup = openRequest;
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -725,6 +728,8 @@ export default function Landing() {
           </p>
         </div>
       </footer>
+
+      <RequestAccessModal open={requestOpen} onOpenChange={setRequestOpen} />
     </div>
   );
 }
