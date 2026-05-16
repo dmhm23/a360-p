@@ -597,16 +597,14 @@ export default function Landing() {
             <div className="mx-auto max-w-3xl text-center">
               <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground">
                 <Sparkles className="h-3.5 w-3.5" />
-                Beneficio para centros seleccionados
+                Cupos limitados
               </div>
               <h2 className="font-display text-3xl font-bold text-foreground sm:text-4xl">
-                1 año gratis para validar el impacto en tu operación real
+                Solo 10 centros entran a la oferta 2026
               </h2>
               <p className="mt-5 text-lg text-muted-foreground">
-                Muchos centros postergan la decisión por miedo al costo o a la
-                implementación. Alturas360 baja esa barrera de entrada para que
-                puedas probar el sistema en tu operación real, con
-                acompañamiento desde el primer día.
+                Implementación sin costo. Formación sin costo. 1 año completo
+                sin pagar licencia. Postulación abierta hasta agotar cupos.
               </p>
             </div>
 
