@@ -161,7 +161,7 @@ const plans = [
       "Portal del estudiante",
       "Soporte de implementación",
     ],
-    cta: "Solicitar 1 año gratis",
+    cta: "Quiero mi cupo gratis",
     highlighted: false,
   },
   {
