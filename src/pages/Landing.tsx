@@ -206,18 +206,19 @@ export default function Landing() {
     <div className="flex min-h-screen flex-col bg-background">
       {/* Nav */}
       <nav className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-lg">
-        <div className="mx-auto flex h-20 max-w-6xl items-center justify-between px-4 sm:px-6">
-          <div className="flex items-center gap-2">
-            <Logo className="h-12 w-auto sm:h-14" />
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:h-20 sm:px-6">
+          <div className="flex items-center gap-2 min-w-0">
+            <Logo className="h-10 w-auto sm:h-14" />
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             {SHOW_LOGIN && (
               <Button variant="ghost" size="sm" onClick={() => navigate("/login")}>
                 {user ? "Mi cuenta" : "Iniciar sesión"}
               </Button>
             )}
-            <Button size="sm" onClick={goSignup}>
-              Solicitar 1 año gratis
+            <Button size="sm" onClick={goSignup} className="whitespace-nowrap">
+              <span className="sm:hidden">1 año gratis</span>
+              <span className="hidden sm:inline">Solicitar 1 año gratis</span>
             </Button>
           </div>
         </div>
@@ -226,26 +227,26 @@ export default function Landing() {
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-accent/50 to-background" />
-        <div className="relative mx-auto max-w-6xl px-4 sm:px-6 pb-20 pt-20 sm:pt-28">
+        <div className="relative mx-auto max-w-6xl px-4 pb-16 pt-12 sm:px-6 sm:pb-20 sm:pt-28">
           <div className="mx-auto max-w-3xl text-center">
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-sm text-muted-foreground">
               <Sparkles className="h-3.5 w-3.5 text-primary" />
               Oferta de lanzamiento · 1 año gratis para centros seleccionados
             </div>
-            <h1 className="font-display text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+            <h1 className="font-display text-3xl font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
               Recupera el control y la{" "}
               <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
                 rentabilidad
               </span>{" "}
               de tu centro de entrenamiento
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground sm:text-xl">
+            <p className="mx-auto mt-5 max-w-2xl text-base text-muted-foreground sm:mt-6 sm:text-xl">
               Alturas360 convierte una operación dispersa en un sistema claro,
               trazable y administrable. Centraliza matrícula, cursos,
               documentos, cartera y certificación para que tu centro funcione
               con más eficiencia, control y conciencia real del negocio.
             </p>
-            <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+            <div className="mt-8 flex flex-col items-center gap-3 sm:mt-10 sm:flex-row sm:justify-center sm:gap-4">
               <Button
                 size="lg"
                 className="h-12 px-8 text-base w-full sm:w-auto"
@@ -269,7 +270,7 @@ export default function Landing() {
           </div>
 
           {/* Hero media — soporta imagen y video automáticamente */}
-          <div className="relative mx-auto mt-16 max-w-5xl animate-fade-in">
+          <div className="relative mx-auto mt-10 max-w-5xl animate-fade-in sm:mt-16">
             <div className="overflow-hidden rounded-xl border border-border bg-card p-2 shadow-2xl shadow-primary/10">
               <HeroMedia
                 src={heroMediaSrc}
@@ -285,8 +286,8 @@ export default function Landing() {
       </section>
 
       {/* Problema — La caja negra */}
-      <section className="border-y border-border bg-muted/50 py-20">
-        <div className="mx-auto max-w-5xl px-6">
+      <section className="border-y border-border bg-muted/50 py-16 sm:py-20">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6">
           <div className="mx-auto max-w-2xl text-center">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted-foreground">
               <AlertTriangle className="h-3.5 w-3.5 text-primary" />
@@ -352,8 +353,8 @@ export default function Landing() {
       </section>
 
       {/* Solución */}
-      <section className="py-24">
-        <div className="mx-auto max-w-6xl px-6">
+      <section className="py-16 sm:py-24">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
             <div>
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted-foreground">
@@ -411,8 +412,8 @@ export default function Landing() {
       </section>
 
       {/* Beneficios */}
-      <section className="border-t border-border bg-muted/40 py-24">
-        <div className="mx-auto max-w-6xl px-6">
+      <section className="border-t border-border bg-muted/40 py-16 sm:py-24">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="font-display text-3xl font-bold text-foreground sm:text-4xl">
               Beneficios concretos para tu centro
@@ -467,8 +468,8 @@ export default function Landing() {
       </section>
 
       {/* Módulos */}
-      <section className="py-24">
-        <div className="mx-auto max-w-6xl px-6">
+      <section className="py-16 sm:py-24">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="font-display text-3xl font-bold text-foreground sm:text-4xl">
               Toda tu operación en un solo lugar
@@ -499,8 +500,8 @@ export default function Landing() {
       </section>
 
       {/* Diferenciadores */}
-      <section className="border-y border-border bg-muted/40 py-24">
-        <div className="mx-auto max-w-6xl px-6">
+      <section className="border-y border-border bg-muted/40 py-16 sm:py-24">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
             <h2 className="font-display text-3xl font-bold text-foreground sm:text-4xl">
               No es software genérico. Es estructura para administrar mejor.
@@ -521,8 +522,8 @@ export default function Landing() {
       </section>
 
       {/* Confianza / Cumplimiento */}
-      <section className="py-24">
-        <div className="mx-auto max-w-6xl px-6">
+      <section className="py-16 sm:py-24">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="font-display text-3xl font-bold text-foreground sm:text-4xl">
               Control, trazabilidad y respaldo
@@ -568,8 +569,8 @@ export default function Landing() {
       </section>
 
       {/* Pricing */}
-      <section className="border-t border-border bg-muted/40 py-24">
-        <div className="mx-auto max-w-6xl px-6">
+      <section className="border-t border-border bg-muted/40 py-16 sm:py-24">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="font-display text-3xl font-bold text-foreground sm:text-4xl">
               Planes diseñados para cómo crecen los centros
@@ -632,9 +633,9 @@ export default function Landing() {
       </section>
 
       {/* Oferta 1 año gratis */}
-      <section className="relative overflow-hidden py-24">
+      <section className="relative overflow-hidden py-16 sm:py-24">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-accent to-primary/5" />
-        <div className="relative mx-auto max-w-5xl px-6">
+        <div className="relative mx-auto max-w-5xl px-4 sm:px-6">
           <div className="rounded-3xl border border-primary/30 bg-card/80 p-8 backdrop-blur sm:p-12">
             <div className="mx-auto max-w-3xl text-center">
               <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground">
@@ -684,9 +685,9 @@ export default function Landing() {
       </section>
 
       {/* CTA final */}
-      <section className="relative overflow-hidden border-t border-border py-24">
+      <section className="relative overflow-hidden border-t border-border py-16 sm:py-24">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent to-primary/5" />
-        <div className="relative mx-auto max-w-6xl px-6 text-center">
+        <div className="relative mx-auto max-w-6xl px-4 text-center sm:px-6">
           <h2 className="font-display text-3xl font-bold text-foreground sm:text-5xl">
             Deja de administrar a ciegas
           </h2>
@@ -722,7 +723,7 @@ export default function Landing() {
 
       {/* Footer */}
       <footer className="border-t border-border py-10">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 sm:flex-row">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 sm:flex-row sm:px-6">
           <div className="flex items-center gap-2">
             <Logo className="h-10 w-auto" />
           </div>
