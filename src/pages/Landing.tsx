@@ -206,9 +206,9 @@ export default function Landing() {
     <div className="flex min-h-screen flex-col bg-background">
       {/* Nav */}
       <nav className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-lg">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:h-20 sm:px-6">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
           <div className="flex items-center gap-2 min-w-0">
-            <Logo className="h-10 w-auto sm:h-14" />
+            <Logo className="h-8 w-auto sm:h-9" />
           </div>
           <div className="flex items-center gap-2 sm:gap-3">
             {SHOW_LOGIN && (
