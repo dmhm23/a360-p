@@ -26,7 +26,6 @@ import {
   Layers,
   Database,
   History,
-  MessageSquare,
   Star,
   HelpCircle,
 } from "lucide-react";
