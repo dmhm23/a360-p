@@ -240,7 +240,7 @@ export default function Landing() {
               </span>{" "}
               de tu centro de entrenamiento
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground sm:text-xl">
+            <p className="mx-auto mt-5 max-w-2xl text-base text-muted-foreground sm:mt-6 sm:text-xl">
               Alturas360 convierte una operación dispersa en un sistema claro,
               trazable y administrable. Centraliza matrícula, cursos,
               documentos, cartera y certificación para que tu centro funcione
