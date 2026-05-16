@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import {
-  Mountain,
   Sparkles,
   ArrowRight,
   CheckCircle2,
@@ -29,12 +28,16 @@ import {
   History,
   MessageSquare,
   Star,
-  Settings,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HeroMedia } from "@/components/HeroMedia";
-import { useHeroMedia } from "@/hooks/useHeroMedia";
-import { HeroMediaSettingsModal } from "@/components/HeroMediaSettingsModal";
+import { Logo } from "@/components/Logo";
+import {
+  heroMediaSrc,
+  heroMediaType,
+  heroMediaPoster,
+} from "@/config/heroMedia";
+import { SHOW_LOGIN } from "@/config/featureFlags";
 
 const benefits = [
   {
