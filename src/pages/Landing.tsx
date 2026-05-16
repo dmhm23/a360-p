@@ -509,14 +509,14 @@ export default function Landing() {
             <div className="flex flex-col items-start gap-6 lg:flex-row lg:items-center lg:justify-between">
               <div className="max-w-2xl">
                 <h3 className="font-display text-2xl font-bold text-foreground sm:text-3xl">
-                  Empieza ahora sin costo de implementación ni formación
+                  Empieza esta semana, sin pagos
                 </h3>
                 <p className="mt-3 text-base text-muted-foreground">
-                  Solicita 1 año gratis para comenzar a transformar la operación de tu centro.
+                  Implementación y formación incluidas. Postula tu centro para 1 año gratis.
                 </p>
               </div>
               <Button size="lg" className="h-12 px-8 w-full lg:w-auto" onClick={goSignup}>
-                Solicitar 1 año gratis
+                Quiero mi cupo gratis
                 <ArrowRight className="ml-1 h-4 w-4" />
               </Button>
             </div>
