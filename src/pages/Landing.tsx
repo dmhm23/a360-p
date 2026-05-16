@@ -230,20 +230,18 @@ export default function Landing() {
           <div className="mx-auto max-w-3xl text-center">
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-sm text-muted-foreground">
               <Sparkles className="h-3.5 w-3.5 text-primary" />
-              Oferta de lanzamiento · 1 año gratis para centros seleccionados
+              Oferta de lanzamiento · Solo 10 cupos para 2026
             </div>
             <h1 className="font-display text-3xl font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-              Recupera el control y la{" "}
+              El software para centros de trabajo seguro en alturas que ordena tu operación y multiplica tu{" "}
               <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
                 rentabilidad
-              </span>{" "}
-              de tu centro de entrenamiento
+              </span>
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-base text-muted-foreground sm:mt-6 sm:text-xl">
-              Alturas360 convierte una operación dispersa en un sistema claro,
-              trazable y administrable. Centraliza matrícula, cursos,
-              documentos, cartera y certificación para que tu centro funcione
-              con más eficiencia, control y conciencia real del negocio.
+              Matrícula, cursos, cartera y certificación —cumpliendo la
+              Resolución 4272— en una sola plataforma. Empieza con 1 año gratis,
+              sin costo de implementación ni formación.
             </p>
             <div className="mt-8 flex flex-col items-center gap-3 sm:mt-10 sm:flex-row sm:justify-center sm:gap-4">
               <Button
@@ -251,20 +249,12 @@ export default function Landing() {
                 className="h-12 px-8 text-base w-full sm:w-auto"
                 onClick={goSignup}
               >
-                Solicitar 1 año gratis
+                Quiero mi cupo gratis
                 <ArrowRight className="ml-1 h-4 w-4" />
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="h-12 px-8 text-base w-full sm:w-auto"
-                onClick={goSignup}
-              >
-                Agendar una demo
               </Button>
             </div>
             <p className="mt-6 text-sm text-muted-foreground">
-              Implementación sin costo. Formación sin costo. Accede a 1 año gratis para tu centro.
+              Sin tarjeta · Implementación incluida · Respuesta en 24 horas
             </p>
           </div>
 
