@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import {
-  Mountain,
   Sparkles,
   ArrowRight,
   CheckCircle2,
@@ -29,12 +28,16 @@ import {
   History,
   MessageSquare,
   Star,
-  Settings,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HeroMedia } from "@/components/HeroMedia";
-import { useHeroMedia } from "@/hooks/useHeroMedia";
-import { HeroMediaSettingsModal } from "@/components/HeroMediaSettingsModal";
+import { Logo } from "@/components/Logo";
+import {
+  heroMediaSrc,
+  heroMediaType,
+  heroMediaPoster,
+} from "@/config/heroMedia";
+import { SHOW_LOGIN } from "@/config/featureFlags";
 
 const benefits = [
   {
@@ -190,16 +193,12 @@ const plans = [
 ];
 
 export default function Landing() {
-  const { user, loading, role } = useAuth();
+  const { user, loading } = useAuth();
   const navigate = useNavigate();
-  const heroMedia = useHeroMedia();
-  const [settingsOpen, setSettingsOpen] = useState(false);
-  const isAdmin = role === "admin";
 
   useEffect(() => {
-    // Admins permanecen en la landing para poder editar el medio del hero.
-    if (!loading && user && !isAdmin) navigate("/dashboard", { replace: true });
-  }, [user, loading, isAdmin, navigate]);
+    if (!loading && user) navigate("/dashboard", { replace: true });
+  }, [user, loading, navigate]);
 
   const goSignup = () => navigate("/signup");
 
@@ -209,28 +208,17 @@ export default function Landing() {
       <nav className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-lg">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
           <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-              <Mountain className="h-4 w-4 text-primary-foreground" />
-            </div>
+            <Logo className="h-8 w-auto" />
             <span className="font-display text-lg font-bold text-foreground">
               Alturas360
             </span>
           </div>
           <div className="flex items-center gap-3">
-            {isAdmin && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setSettingsOpen(true)}
-                className="hidden sm:inline-flex"
-              >
-                <Settings className="mr-2 h-4 w-4" />
-                Editar medio
+            {SHOW_LOGIN && (
+              <Button variant="ghost" size="sm" onClick={() => navigate("/login")}>
+                {user ? "Mi cuenta" : "Iniciar sesión"}
               </Button>
             )}
-            <Button variant="ghost" size="sm" onClick={() => navigate("/login")}>
-              {user ? "Mi cuenta" : "Iniciar sesión"}
-            </Button>
             <Button size="sm" onClick={goSignup}>
               Solicitar 1 año gratis
             </Button>
@@ -287,9 +275,9 @@ export default function Landing() {
           <div className="relative mx-auto mt-16 max-w-5xl animate-fade-in">
             <div className="overflow-hidden rounded-xl border border-border bg-card p-2 shadow-2xl shadow-primary/10">
               <HeroMedia
-                src={heroMedia.src}
-                type={heroMedia.type}
-                poster={heroMedia.poster}
+                src={heroMediaSrc}
+                type={heroMediaType}
+                poster={heroMediaPoster}
                 alt="Dashboard gerencial de Alturas360 mostrando matrículas, cartera y desempeño operativo de un centro de formación en trabajo seguro en alturas"
                 className="w-full rounded-lg"
               />
@@ -739,9 +727,7 @@ export default function Landing() {
       <footer className="border-t border-border py-10">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 sm:flex-row">
           <div className="flex items-center gap-2">
-            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary">
-              <Mountain className="h-3 w-3 text-primary-foreground" />
-            </div>
+            <Logo className="h-6 w-auto" />
             <span className="font-display text-sm font-semibold text-foreground">
               Alturas360
             </span>
@@ -753,35 +739,6 @@ export default function Landing() {
           </p>
         </div>
       </footer>
-
-      {isAdmin ? (
-        <>
-          <Button
-            onClick={() => setSettingsOpen(true)}
-            className="fixed bottom-6 right-6 z-40 h-12 rounded-full px-5 shadow-lg"
-            aria-label="Configurar medio del hero"
-          >
-            <Settings className="mr-2 h-5 w-5" />
-            Editar medio del hero
-          </Button>
-          <HeroMediaSettingsModal
-            open={settingsOpen}
-            onOpenChange={setSettingsOpen}
-            current={{ src: heroMedia.src, type: heroMedia.type, poster: heroMedia.poster }}
-          />
-        </>
-      ) : !user ? (
-        <Button
-          variant="secondary"
-          size="sm"
-          onClick={() => navigate("/login")}
-          className="fixed bottom-6 right-6 z-40 rounded-full shadow-lg opacity-80 hover:opacity-100"
-          title="Inicia sesión como admin para editar el medio del hero"
-        >
-          <Settings className="mr-2 h-4 w-4" />
-          Admin
-        </Button>
-      ) : null}
     </div>
   );
 }

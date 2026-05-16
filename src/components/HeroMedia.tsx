@@ -1,4 +1,5 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
+import fallbackAsset from "@/assets/hero-dashboard.png.asset.json";
 
 type HeroMediaProps = {
   /** URL del recurso (imagen o video) */
@@ -13,6 +14,7 @@ type HeroMediaProps = {
 };
 
 const VIDEO_EXTENSIONS = [".mp4", ".webm", ".mov", ".m4v", ".ogv"];
+const FALLBACK_SRC = fallbackAsset.url;
 
 const detectType = (src: string): "image" | "video" => {
   const lower = src.split("?")[0].toLowerCase();
@@ -21,7 +23,8 @@ const detectType = (src: string): "image" | "video" => {
 
 /**
  * Renderiza imagen o video del hero de forma transparente.
- * Detecta el tipo por extensión, o se puede forzar con la prop `type`.
+ * - Detecta el tipo por extensión, o se puede forzar con la prop `type`.
+ * - Si la carga falla, muestra una imagen fallback (`hero-dashboard.png`).
  */
 export const HeroMedia = ({
   src,
@@ -34,12 +37,29 @@ export const HeroMedia = ({
     () => (type === "auto" ? detectType(src) : type),
     [src, type],
   );
+  const [failed, setFailed] = useState(false);
+
+  // Reinicia el estado de error cuando cambia la fuente.
+  useEffect(() => {
+    setFailed(false);
+  }, [src]);
+
+  if (failed) {
+    return (
+      <img
+        src={FALLBACK_SRC}
+        alt={alt}
+        className={className}
+        loading="eager"
+      />
+    );
+  }
 
   if (resolved === "video") {
     return (
       <video
         src={src}
-        poster={poster}
+        poster={poster ?? FALLBACK_SRC}
         className={className}
         aria-label={alt}
         autoPlay
@@ -47,6 +67,7 @@ export const HeroMedia = ({
         loop
         playsInline
         preload="metadata"
+        onError={() => setFailed(true)}
       />
     );
   }
@@ -57,6 +78,7 @@ export const HeroMedia = ({
       alt={alt}
       className={className}
       loading="eager"
+      onError={() => setFailed(true)}
     />
   );
 };

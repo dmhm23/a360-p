@@ -6,7 +6,8 @@ import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { FileText, LayoutDashboard, Users, FolderOpen, PlusCircle, Settings, LogOut, User, ClipboardList, Menu } from "lucide-react";
+import { LayoutDashboard, Users, FolderOpen, PlusCircle, Settings, LogOut, User, ClipboardList, Menu } from "lucide-react";
+import { Logo } from "@/components/Logo";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -37,9 +38,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               <Menu className="h-5 w-5" />
             </Button>
             <Link to="/dashboard" className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-                <FileText className="h-4 w-4 text-primary-foreground" />
-              </div>
+              <Logo className="h-8 w-auto" />
               <span className="text-lg font-bold font-display text-foreground hidden sm:block">
                 {organization?.name ?? "QuoteKit"}
               </span>
@@ -96,9 +95,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         <SheetContent side="left" className="w-72 p-0">
           <SheetHeader className="border-b border-border p-4">
             <SheetTitle className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-                <FileText className="h-4 w-4 text-primary-foreground" />
-              </div>
+              <Logo className="h-8 w-auto" />
               {organization?.name ?? "QuoteKit"}
             </SheetTitle>
           </SheetHeader>
