@@ -193,16 +193,12 @@ const plans = [
 ];
 
 export default function Landing() {
-  const { user, loading, role } = useAuth();
+  const { user, loading } = useAuth();
   const navigate = useNavigate();
-  const heroMedia = useHeroMedia();
-  const [settingsOpen, setSettingsOpen] = useState(false);
-  const isAdmin = role === "admin";
 
   useEffect(() => {
-    // Admins permanecen en la landing para poder editar el medio del hero.
-    if (!loading && user && !isAdmin) navigate("/dashboard", { replace: true });
-  }, [user, loading, isAdmin, navigate]);
+    if (!loading && user) navigate("/dashboard", { replace: true });
+  }, [user, loading, navigate]);
 
   const goSignup = () => navigate("/signup");
 
@@ -212,28 +208,17 @@ export default function Landing() {
       <nav className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-lg">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
           <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-              <Mountain className="h-4 w-4 text-primary-foreground" />
-            </div>
+            <Logo className="h-8 w-auto" />
             <span className="font-display text-lg font-bold text-foreground">
               Alturas360
             </span>
           </div>
           <div className="flex items-center gap-3">
-            {isAdmin && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setSettingsOpen(true)}
-                className="hidden sm:inline-flex"
-              >
-                <Settings className="mr-2 h-4 w-4" />
-                Editar medio
+            {SHOW_LOGIN && (
+              <Button variant="ghost" size="sm" onClick={() => navigate("/login")}>
+                {user ? "Mi cuenta" : "Iniciar sesión"}
               </Button>
             )}
-            <Button variant="ghost" size="sm" onClick={() => navigate("/login")}>
-              {user ? "Mi cuenta" : "Iniciar sesión"}
-            </Button>
             <Button size="sm" onClick={goSignup}>
               Solicitar 1 año gratis
             </Button>
