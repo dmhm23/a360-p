@@ -582,8 +582,8 @@ export default function Landing() {
 
           <div className="mt-12 rounded-xl border border-primary/30 bg-primary/5 p-5 text-center">
             <p className="text-sm font-medium text-foreground sm:text-base">
-              <span className="font-semibold text-primary">Promoción de lanzamiento:</span>{" "}
-              implementación sin costo, formación sin costo y 1 año gratis para centros seleccionados.
+              <span className="font-semibold text-primary">Precio personalizado</span>{" "}
+              según el número de estudiantes de tu centro. Todos los planes incluyen 1 año gratis durante la oferta de lanzamiento.
             </p>
           </div>
         </div>
