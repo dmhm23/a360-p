@@ -275,9 +275,9 @@ export default function Landing() {
           <div className="relative mx-auto mt-16 max-w-5xl animate-fade-in">
             <div className="overflow-hidden rounded-xl border border-border bg-card p-2 shadow-2xl shadow-primary/10">
               <HeroMedia
-                src={heroMedia.src}
-                type={heroMedia.type}
-                poster={heroMedia.poster}
+                src={heroMediaSrc}
+                type={heroMediaType}
+                poster={heroMediaPoster}
                 alt="Dashboard gerencial de Alturas360 mostrando matrículas, cartera y desempeño operativo de un centro de formación en trabajo seguro en alturas"
                 className="w-full rounded-lg"
               />
@@ -727,49 +727,11 @@ export default function Landing() {
       <footer className="border-t border-border py-10">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 sm:flex-row">
           <div className="flex items-center gap-2">
-            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary">
-              <Mountain className="h-3 w-3 text-primary-foreground" />
-            </div>
+            <Logo className="h-6 w-auto" />
             <span className="font-display text-sm font-semibold text-foreground">
               Alturas360
             </span>
           </div>
-          <p className="text-center text-xs text-muted-foreground sm:text-right">
-            Plataforma para centros de formación en trabajo seguro en alturas · Colombia
-            <br />
-            © {new Date().getFullYear()} Alturas360. Todos los derechos reservados.
-          </p>
-        </div>
-      </footer>
-
-      {isAdmin ? (
-        <>
-          <Button
-            onClick={() => setSettingsOpen(true)}
-            className="fixed bottom-6 right-6 z-40 h-12 rounded-full px-5 shadow-lg"
-            aria-label="Configurar medio del hero"
-          >
-            <Settings className="mr-2 h-5 w-5" />
-            Editar medio del hero
-          </Button>
-          <HeroMediaSettingsModal
-            open={settingsOpen}
-            onOpenChange={setSettingsOpen}
-            current={{ src: heroMedia.src, type: heroMedia.type, poster: heroMedia.poster }}
-          />
-        </>
-      ) : !user ? (
-        <Button
-          variant="secondary"
-          size="sm"
-          onClick={() => navigate("/login")}
-          className="fixed bottom-6 right-6 z-40 rounded-full shadow-lg opacity-80 hover:opacity-100"
-          title="Inicia sesión como admin para editar el medio del hero"
-        >
-          <Settings className="mr-2 h-4 w-4" />
-          Admin
-        </Button>
-      ) : null}
     </div>
   );
 }
