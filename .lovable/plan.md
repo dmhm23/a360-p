@@ -1,166 +1,129 @@
-# Plan — Modal "Solicitar 1 año gratis"
+# Plan — Notificación por correo al recibir un nuevo lead
 
-## 1. Diagnóstico del estado actual
+## 1. Diagnóstico del flujo actual
 
-- **CTAs existentes en `src/pages/Landing.tsx`** que hoy llaman a `goSignup` (navegan a `/signup`) y deberían abrir el modal:
-  - Nav (línea 217) — botón "Solicitar 1 año gratis" / "1 año gratis"
-  - Hero (línea 249) — "Quiero mi cupo gratis"
-  - Sección problema/solución (336)
-  - CTA tras planes (417)
-  - Franja CTA intermedia (518)
-  - Card de plan destacado (574)
-  - Oferta 1 año gratis (629) — "Postular mi centro al año gratis"
-  - CTA final (703)
-- **Modal reutilizable**: existe `Dialog` de shadcn (`src/components/ui/dialog.tsx`) usado en `HeroMediaSettingsModal`. Sirve perfecto como base.
-- **Formulario / captura de leads**: no existe. Tampoco hay servicio ni hook.
-- **Supabase**: configurado vía Lovable Cloud. Tablas actuales: `clients`, `proposals`, `templates`, etc. **No hay tabla de leads/solicitudes/postulaciones**.
-- **Política de privacidad**: no existe ruta ni sección. Recomendación: crear ruta placeholder `/privacidad` (página simple) y enlazar desde el checkbox; texto puede iterarse luego.
-- **Riesgos de regresión**: bajo — solo se reemplazan handlers de CTAs en Landing y se agrega una página/ruta nueva. No se tocan auth, dashboard ni RLS de tablas existentes.
+- **Formulario**: `src/components/RequestAccessModal.tsx` valida con zod + react-hook-form e **inserta directamente desde el frontend** en `lead_requests` vía `supabase.from('lead_requests').insert(...)`.
+- **Almacenamiento**: tabla `public.lead_requests` (Lovable Cloud). RLS: INSERT público con check `accepted_privacy_policy = true`, SELECT/UPDATE solo admins, sin DELETE.
+- **Edge Functions existentes**: `ai-content` y `verify-share-password`. No hay infraestructura de email (no existe `send-transactional-email`, no hay queue, no hay templates).
+- **Proveedores de email**: ninguno integrado (sin Resend/SendGrid/Mailgun/Brevo/SMTP).
+- **Dominio de correo**: el workspace **no tiene dominio de email configurado**, pero el proyecto sí tiene el dominio personalizado **`alturas360.com`** disponible para usarse como remitente (vía subdominio delegado, p. ej. `notify.alturas360.com`).
+- **Variables de entorno relevantes**: solo `LOVABLE_API_KEY`, `SUPABASE_*`. Ninguna específica de email.
+- **Riesgos del envío desde frontend**: cualquier API key de un proveedor externo quedaría expuesta en el bundle; además permitiría spam desde fuera. Por eso el envío DEBE ocurrir en backend (Edge Function).
 
-## 2. Arquitectura recomendada
+## 2. Alternativas y comparación
 
-- Nuevo componente reutilizable: `src/components/RequestAccessModal.tsx`
-  - Controlado por `open` / `onOpenChange` (patrón ya usado en `HeroMediaSettingsModal`).
-- Provider ligero `src/contexts/RequestAccessContext.tsx` con `openRequestModal()` para que cualquier CTA lo abra sin prop drilling. Se monta una sola instancia del modal en `Landing.tsx` (ámbito acotado, sin tocar `App.tsx`).
-- Servicio: `src/services/leads.ts` con `submitLead(payload)` que inserta en Supabase y captura UTMs/`page_path`/`user_agent`.
-- Validación: `zod` + `react-hook-form` (ya disponibles en el proyecto vía shadcn `form.tsx`).
-- Página nueva: `src/pages/Privacidad.tsx` + ruta `/privacidad` en `App.tsx` (solo añadir la ruta, sin tocar las demás).
+| Opción | Ventajas | Desventajas | Complejidad | Seguridad | Costo | Mantenimiento desde Lovable |
+|---|---|---|---|---|---|---|
+| **A. Lovable Emails (built-in)** vía Edge Function | Sin API keys de terceros, dominio propio (`notify.alturas360.com`), cola con reintentos, supresiones, logs, plantillas React Email | Requiere configurar dominio (delegación NS) y esperar verificación DNS | Baja | Alta (sin credenciales expuestas) | Incluido en Lovable Cloud | Excelente — todo desde el agente |
+| B. Resend / SendGrid / Mailgun / Brevo vía Edge Function | Proveedor maduro, dashboards propios | Otra cuenta, API key, posible conflicto DNS si comparte subdominio | Media | Alta si la key vive solo en backend | Free tier + cargos al escalar | Bueno pero con dependencia externa |
+| C. Webhook a Make/n8n/Zapier | Sin código, fácil de cambiar destinatarios | Plataforma extra a pagar, latencia, depende de terceros, requiere URL secreta o Edge Function intermedia para no exponer | Baja | Media (URL del webhook debe protegerse) | Tiers gratuitos limitados | Aceptable; cambios fuera de Lovable |
+| D. Solo registro en Supabase, sin email | Cero complejidad nueva | Pierdes inmediatez para el equipo comercial; el objetivo del usuario no se cumple | Nula | Alta | $0 | N/A |
 
-## 3. Campos finales del formulario
+## 3. Recomendación
 
-Columnas en desktop, una columna en móvil:
+**Opción A — Lovable Emails con una Edge Function `notify-new-lead`**. Es la más simple, segura y nativa: no expone credenciales, usa el dominio del cliente y queda 100% mantenible desde Lovable. Para cambiar el destinatario en el futuro basta editar una constante o, mejor, una fila en `site_settings`.
 
-| Campo | Tipo | Obligatorio | Validación |
-|---|---|---|---|
-| Nombre del centro / empresa | text | sí | min 2 |
-| Ciudad | text | sí | min 2 |
-| Nombre completo | text | sí | min 3 |
-| Cargo | text | sí | min 2 |
-| Correo electrónico | email | sí | regex email |
-| Teléfono | tel | sí | 7–15 dígitos, permite `+` y espacios |
-| Checkbox autorización | bool | sí | debe ser `true` |
+## 4. Arquitectura propuesta
 
-Capturados automáticamente (no visibles): `source = "workshop_modal_form"`, `status = "new"`, `page_path`, `user_agent`, `utm_source`, `utm_medium`, `utm_campaign` (leídos de `window.location`).
-
-## 4. Diseño responsive
-
-- `DialogContent` con `max-w-2xl`, `max-h-[90vh] overflow-y-auto`.
-- Grid: `grid grid-cols-1 md:grid-cols-2 gap-4`.
-- Checkbox y botón ocupan ancho completo (`md:col-span-2`).
-- Botón principal con ícono `ArrowRight` de lucide.
-- Cierre con X (nativo de `DialogContent`) y clic fuera (comportamiento por defecto de Radix).
-
-## 5. Estructura propuesta de la tabla
-
-```sql
-create table public.lead_requests (
-  id uuid primary key default gen_random_uuid(),
-  company_name text not null,
-  city text not null,
-  full_name text not null,
-  role text not null,
-  email text not null,
-  phone text not null,
-  accepted_privacy_policy boolean not null default false,
-  source text not null default 'workshop_modal_form',
-  status text not null default 'new',
-  page_path text,
-  user_agent text,
-  utm_source text,
-  utm_medium text,
-  utm_campaign text,
-  created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
-);
-create index on public.lead_requests (created_at desc);
-create index on public.lead_requests (email);
--- trigger update_updated_at_column (ya existe la función)
+```
+Modal (frontend)
+  └─ insert en lead_requests (RLS pública con check)
+  └─ supabase.functions.invoke('notify-new-lead', { body: { leadId } })
+                                   │
+                                   ▼
+              Edge Function notify-new-lead (verify_jwt = false)
+                 1. Lee el lead por id (service role)
+                 2. Lee destinatario desde site_settings.key='lead_notification'
+                    (fallback hardcoded: mhoyos456@gmail.com)
+                 3. Invoca send-transactional-email con plantilla 'new-lead-internal'
+                                   │
+                                   ▼
+              Lovable Email Queue → Entrega vía notify.alturas360.com
 ```
 
-## 6. Políticas RLS recomendadas
+Notas:
+- El frontend solo pasa el `leadId`; nada de datos confidenciales en la llamada (la Edge Function los relee con service role).
+- El envío al cliente final del lead (confirmación) es opcional — ver §10.
 
-- `enable row level security`.
-- **INSERT público anónimo permitido** (con check `accepted_privacy_policy = true`):
-  ```sql
-  create policy "Public can submit lead requests"
-  on public.lead_requests for insert
-  to anon, authenticated
-  with check (accepted_privacy_policy = true);
-  ```
-- **SELECT solo admins**:
-  ```sql
-  create policy "Admins can view leads"
-  on public.lead_requests for select
-  to authenticated
-  using (has_role(auth.uid(), 'admin'));
-  ```
-- **UPDATE solo admins** (gestión de `status`).
-- **Sin DELETE público** (sin policy → bloqueado).
+## 5. Proveedor recomendado
 
-## 7. Componentes que se crearían o modificarían
+**Lovable Emails** (infraestructura nativa) usando `alturas360.com` como dominio raíz y `notify.alturas360.com` como subdominio remitente.
 
-**Crear**
-- `src/components/RequestAccessModal.tsx`
-- `src/contexts/RequestAccessContext.tsx` (provider + hook `useRequestAccess`)
-- `src/services/leads.ts`
-- `src/pages/Privacidad.tsx`
+## 6. Variables de entorno necesarias
 
-**Modificar**
-- `src/pages/Landing.tsx` — envolver con provider, montar modal, reemplazar `onClick={goSignup}` por `onClick={openRequestModal}` en los 8 CTAs listados. **Mantener** el botón "Iniciar sesión" del nav apuntando a `/login` y dejar la ruta `/signup` intacta.
-- `src/App.tsx` — agregar ruta `/privacidad`.
+Ninguna nueva específica de email (`LOVABLE_API_KEY`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` ya existen). El destinatario interno NO se guarda como secreto: se guarda en la tabla `site_settings` (clave `lead_notification`) para que pueda editarse sin redeploy.
 
-## 8. CTAs que abrirán el modal
+## 7. Cambios requeridos en Supabase
 
-Los 8 CTAs listados en §1. El botón "Iniciar sesión" del nav **no** cambia.
+1. Insertar fila inicial en `site_settings`:
+   ```json
+   { "key": "lead_notification", "value": { "to": "mhoyos456@gmail.com" } }
+   ```
+   (RLS ya existente: anyone SELECT, solo admins UPDATE → cambiar destinatario desde un panel admin o desde una UI mínima en `/settings` más adelante.)
+2. **Cambio de RLS recomendado**: política SELECT actual de `lead_requests` permite solo admins. La Edge Function usará service role, por lo que **no requiere modificar RLS**.
+3. Configurar dominio de email (delegación NS de `notify.alturas360.com`) e infra de cola (`setup_email_infra`) y scaffold de transactional emails.
 
-## 9. Estados del formulario
+## 8. Cambios requeridos en el formulario
 
-`idle → validating (zod) → submitting (botón disabled + spinner) → success (vista de confirmación dentro del mismo modal) → error (toast + permanece en el form con datos)`. Reset al cerrar.
+- Al éxito del insert, invocar `supabase.functions.invoke('notify-new-lead', { body: { leadId } })` **sin bloquear** la vista de éxito (fire-and-forget con catch silencioso a `console.error`). Si la notificación falla, el lead ya está guardado y se procesará por reintentos del lado del Edge Function/cola.
+- No se cambian validaciones, campos ni UX.
 
-## 10. Validaciones
+## 9. Estructura del correo interno
 
-- Todos los campos requeridos no vacíos (trim).
-- Email: regex estándar zod.
-- Teléfono: `/^[+\d\s()-]{7,20}$/`.
-- Checkbox: debe ser `true`.
-- Botón submit deshabilitado mientras `isSubmitting` para evitar dobles envíos.
+**Asunto**: `Nuevo lead — {empresa} ({ciudad})`
 
-## 11. Mensaje de éxito
+**Cuerpo** (HTML React Email, branded):
+- Encabezado: "Nuevo lead recibido en Alturas360"
+- Tabla con: Empresa, Ciudad, Nombre completo, Cargo, Email, Teléfono, Fecha (zona Bogotá), Fuente (`workshop_modal_form`), Estado inicial (`new`), Página (`page_path`), UTM source/medium/campaign (si existen)
+- Botón opcional: "Ver en panel" → `https://alturas360.com/...` (cuando exista panel de leads)
+- Footer mínimo (el sistema añade el unsubscribe automáticamente — aceptable para un correo interno, o se puede deshabilitar marcando el correo como "alerts" si la plataforma lo permite; si no, queda visible y no estorba al equipo interno).
 
-Tras `insert` exitoso, el contenido del `DialogContent` cambia a:
-- Título: "Solicitud enviada correctamente"
-- Mensaje descrito por el usuario
-- Botón "Entendido" → cierra el modal y resetea el formulario.
+## 10. Correo de confirmación al usuario (análisis, no implementar)
+
+**Recomendado**: sí, aporta valor (refuerza la marca, da expectativas claras, reduce ansiedad post-formulario, mejora reputación de remitente con un primer correo esperado).
+
+**Implicaciones**:
+- Plantilla adicional `lead-received-user` con tono cálido.
+- Cumplimiento: ya hay autorización de tratamiento de datos en el formulario; este es **transaccional** (responde a una acción del propio usuario), no marketing.
+- Mismo costo cero (Lovable Emails).
+- Riesgo: si rebotan o se quejan, el dominio acumula suppressions — mitigado porque el envío es 1:1 disparado por su propia acción.
+
+**Sugerencia para una iteración futura** (no parte del paso 1): añadir esta segunda llamada a `send-transactional-email` dentro de la misma Edge Function `notify-new-lead`.
+
+## 11. Riesgos de seguridad
+
+- **Credenciales**: ninguna expuesta (Lovable Emails no requiere API key cliente).
+- **Spam/abuso**: el formulario público podría ser abusado por bots → mitigaciones futuras: rate limit en la Edge Function por IP (Map en memoria + ventana) o honeypot field. No es bloqueante para el paso 1.
+- **Privacidad**: el correo interno contiene PII; debe ir a una bandeja controlada. Documentado en `site_settings`.
+- **Inyección**: React Email auto-escapa props; no usar `dangerouslySetInnerHTML`.
 
 ## 12. Riesgos de regresión
 
-- Bajo. Posibles puntos a vigilar:
-  - El nav CTA hoy lleva a `/signup`: confirmar que dejar de hacerlo no rompe analítica existente.
-  - Provider montado solo en Landing — si después se quiere abrir desde otras páginas, habrá que elevarlo a `App.tsx`.
-  - Página `/privacidad` placeholder: indicar al usuario que el texto legal debe revisarse.
+- Bajo. El insert del lead sigue intacto; el envío es post-insert no bloqueante.
+- Si la Edge Function falla, el modal sigue mostrando "Solicitud enviada correctamente" (el lead se persistió).
+- La configuración DNS puede tardar hasta 72h; durante ese tiempo los correos quedan en cola (no se pierden).
 
 ## 13. Checklist de pruebas
 
-- [ ] Cada uno de los 8 CTAs abre el modal.
-- [ ] Cierre con X, con tecla Esc y con clic fuera.
-- [ ] Validaciones: campos vacíos, email inválido, teléfono inválido, checkbox sin marcar.
-- [ ] Doble clic en "Enviar" no produce 2 inserts.
-- [ ] Registro visible en tabla `lead_requests` con UTMs si la URL los trae.
-- [ ] Vista de éxito aparece; "Entendido" cierra y resetea.
-- [ ] Error de red muestra toast y conserva los datos.
-- [ ] Responsive: 1 columna <768px, 2 columnas ≥768px.
-- [ ] Usuario anónimo no puede hacer SELECT desde el cliente.
-- [ ] Enlace "tratamiento de datos personales" navega a `/privacidad` en nueva pestaña.
-
-## 14. Prompt sugerido para implementar SOLO el Paso 1
-
-> "Implementa el Paso 1: crea la migración de Supabase para la tabla `public.lead_requests` con los campos y políticas RLS definidos en el plan (INSERT público con check `accepted_privacy_policy = true`, SELECT y UPDATE solo admins, sin DELETE). Incluye trigger `update_updated_at_column` e índices en `created_at` y `email`. No toques código de frontend todavía."
+- [ ] Enviar formulario → fila aparece en `lead_requests`.
+- [ ] Edge Function `notify-new-lead` se invoca con `leadId` correcto.
+- [ ] Correo llega a `mhoyos456@gmail.com` con todos los campos y UTMs si vienen en la URL.
+- [ ] Cambiar `site_settings.lead_notification.to` cambia el destinatario sin redeploy.
+- [ ] Si el lead no acepta privacidad, el insert falla y NO se envía correo (validación previa).
+- [ ] Doble submit no produce 2 correos (idempotencyKey = `lead-notify-${leadId}`).
+- [ ] Vista de éxito aparece incluso si la Edge Function de correo tarda o falla.
+- [ ] Frontend no contiene ninguna API key de email.
+- [ ] Cola de Lovable Emails muestra el envío en `email_send_log`.
 
 ---
 
-### Detalles técnicos clave
+## Cómo cambiar el destinatario en el futuro
 
-- Librerías: `react-hook-form` + `zod` + `@hookform/resolvers` (verificar si están instaladas; si no, agregarlas en el paso de implementación del modal).
-- Insert vía `supabase.from('lead_requests').insert({...}).select().single()`.
-- UTMs leídos con `new URLSearchParams(window.location.search)`.
-- Reset del formulario al cerrar para no filtrar datos entre aperturas.
+Tres opciones, en orden de simplicidad:
+1. **Cambiar el valor en `site_settings.value->>'to'`** (un solo UPDATE en BD — el usuario o tú lo puede hacer en cualquier momento; surte efecto inmediato).
+2. **Añadir una mini-UI en `/settings`** para editarlo (futuro, opcional).
+3. Soportar **múltiples destinatarios** guardando un array (`{ "to": ["a@x.com","b@x.com"] }`) y enviando uno por correo o en CC.
+
+## Prompt sugerido para implementar SOLO el Paso 1
+
+> "Paso 1: configura el dominio de email para `alturas360.com` (subdominio `notify`), ejecuta `setup_email_infra` y `scaffold_transactional_email`. Crea la fila `lead_notification` en `site_settings` con `{ to: 'mhoyos456@gmail.com' }`. No toques aún el formulario ni la Edge Function de notificación."
