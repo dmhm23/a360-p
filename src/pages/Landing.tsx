@@ -286,8 +286,8 @@ export default function Landing() {
       </section>
 
       {/* Problema — La caja negra */}
-      <section className="border-y border-border bg-muted/50 py-20">
-        <div className="mx-auto max-w-5xl px-6">
+      <section className="border-y border-border bg-muted/50 py-16 sm:py-20">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6">
           <div className="mx-auto max-w-2xl text-center">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted-foreground">
               <AlertTriangle className="h-3.5 w-3.5 text-primary" />
@@ -353,8 +353,8 @@ export default function Landing() {
       </section>
 
       {/* Solución */}
-      <section className="py-24">
-        <div className="mx-auto max-w-6xl px-6">
+      <section className="py-16 sm:py-24">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
             <div>
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted-foreground">
@@ -412,8 +412,8 @@ export default function Landing() {
       </section>
 
       {/* Beneficios */}
-      <section className="border-t border-border bg-muted/40 py-24">
-        <div className="mx-auto max-w-6xl px-6">
+      <section className="border-t border-border bg-muted/40 py-16 sm:py-24">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="font-display text-3xl font-bold text-foreground sm:text-4xl">
               Beneficios concretos para tu centro
@@ -468,8 +468,8 @@ export default function Landing() {
       </section>
 
       {/* Módulos */}
-      <section className="py-24">
-        <div className="mx-auto max-w-6xl px-6">
+      <section className="py-16 sm:py-24">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="font-display text-3xl font-bold text-foreground sm:text-4xl">
               Toda tu operación en un solo lugar
@@ -500,8 +500,8 @@ export default function Landing() {
       </section>
 
       {/* Diferenciadores */}
-      <section className="border-y border-border bg-muted/40 py-24">
-        <div className="mx-auto max-w-6xl px-6">
+      <section className="border-y border-border bg-muted/40 py-16 sm:py-24">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
             <h2 className="font-display text-3xl font-bold text-foreground sm:text-4xl">
               No es software genérico. Es estructura para administrar mejor.
@@ -522,8 +522,8 @@ export default function Landing() {
       </section>
 
       {/* Confianza / Cumplimiento */}
-      <section className="py-24">
-        <div className="mx-auto max-w-6xl px-6">
+      <section className="py-16 sm:py-24">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="font-display text-3xl font-bold text-foreground sm:text-4xl">
               Control, trazabilidad y respaldo
@@ -569,8 +569,8 @@ export default function Landing() {
       </section>
 
       {/* Pricing */}
-      <section className="border-t border-border bg-muted/40 py-24">
-        <div className="mx-auto max-w-6xl px-6">
+      <section className="border-t border-border bg-muted/40 py-16 sm:py-24">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="font-display text-3xl font-bold text-foreground sm:text-4xl">
               Planes diseñados para cómo crecen los centros
@@ -633,9 +633,9 @@ export default function Landing() {
       </section>
 
       {/* Oferta 1 año gratis */}
-      <section className="relative overflow-hidden py-24">
+      <section className="relative overflow-hidden py-16 sm:py-24">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-accent to-primary/5" />
-        <div className="relative mx-auto max-w-5xl px-6">
+        <div className="relative mx-auto max-w-5xl px-4 sm:px-6">
           <div className="rounded-3xl border border-primary/30 bg-card/80 p-8 backdrop-blur sm:p-12">
             <div className="mx-auto max-w-3xl text-center">
               <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground">
@@ -685,9 +685,9 @@ export default function Landing() {
       </section>
 
       {/* CTA final */}
-      <section className="relative overflow-hidden border-t border-border py-24">
+      <section className="relative overflow-hidden border-t border-border py-16 sm:py-24">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent to-primary/5" />
-        <div className="relative mx-auto max-w-6xl px-6 text-center">
+        <div className="relative mx-auto max-w-6xl px-4 text-center sm:px-6">
           <h2 className="font-display text-3xl font-bold text-foreground sm:text-5xl">
             Deja de administrar a ciegas
           </h2>
@@ -723,7 +723,7 @@ export default function Landing() {
 
       {/* Footer */}
       <footer className="border-t border-border py-10">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 sm:flex-row">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 sm:flex-row sm:px-6">
           <div className="flex items-center gap-2">
             <Logo className="h-10 w-auto" />
           </div>
