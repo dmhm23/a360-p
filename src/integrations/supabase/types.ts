@@ -123,6 +123,66 @@ export type Database = {
           },
         ]
       }
+      lead_requests: {
+        Row: {
+          accepted_privacy_policy: boolean
+          city: string
+          company_name: string
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          page_path: string | null
+          phone: string
+          role: string
+          source: string
+          status: string
+          updated_at: string
+          user_agent: string | null
+          utm_campaign: string | null
+          utm_medium: string | null
+          utm_source: string | null
+        }
+        Insert: {
+          accepted_privacy_policy?: boolean
+          city: string
+          company_name: string
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          page_path?: string | null
+          phone: string
+          role: string
+          source?: string
+          status?: string
+          updated_at?: string
+          user_agent?: string | null
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+        }
+        Update: {
+          accepted_privacy_policy?: boolean
+          city?: string
+          company_name?: string
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          page_path?: string | null
+          phone?: string
+          role?: string
+          source?: string
+          status?: string
+          updated_at?: string
+          user_agent?: string | null
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+        }
+        Relationships: []
+      }
       line_items: {
         Row: {
           amount: number | null
