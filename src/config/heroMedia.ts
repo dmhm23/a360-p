@@ -23,22 +23,9 @@
 // `heroMediaType` debajo.
 // =============================================================
 
-import heroAsset from "@/assets/hero-dashboard.png.asset.json";
+export const heroMediaSrc: string =
+  "https://nazkolmoghbnhmahwijn.supabase.co/storage/v1/object/public/site-media/hero.mp4";
 
-/**
- * Fuente del medio del hero. Reemplaza por:
- *  - una importación de un archivo en src/assets
- *  - o una URL externa: "https://..."
- */
-export const heroMediaSrc: string = heroAsset.url;
+export const heroMediaType: "auto" | "image" | "video" = "video";
 
-/**
- * Forzar el tipo si la detección automática no funciona.
- * Déjalo en "auto" para que se detecte por extensión.
- */
-export const heroMediaType: "auto" | "image" | "video" = "auto";
-
-/**
- * Poster opcional para videos (imagen que se muestra antes de reproducir).
- */
 export const heroMediaPoster: string | undefined = undefined;
