@@ -274,7 +274,7 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Problema — La caja negra */}
+      {/* Problema — checklist */}
       <section className="border-y border-border bg-muted/50 py-16 sm:py-20">
         <div className="mx-auto max-w-5xl px-4 sm:px-6">
           <div className="mx-auto max-w-2xl text-center">
@@ -283,59 +283,34 @@ export default function Landing() {
               El problema real
             </div>
             <h2 className="font-display text-3xl font-bold text-foreground sm:text-4xl">
-              Muchos centros operan como una caja negra
+              ¿Tu centro funciona así hoy?
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              La utilidad baja, pero no siempre se sabe con claridad por qué.
-              Muchas veces el problema no es comercial: está en la operación.
+              La utilidad baja, pero no siempre se sabe por qué. Casi siempre el
+              problema no es comercial: está en la operación.
             </p>
           </div>
 
-          <div className="mt-12 grid gap-5 sm:grid-cols-2">
+          <ul className="mx-auto mt-10 grid max-w-3xl gap-3 sm:grid-cols-2">
             {[
-              {
-                icon: Workflow,
-                title: "Procesos manuales y repetitivos",
-                description: "Tareas críticas resueltas en hojas de cálculo, correos y mensajes sueltos.",
-              },
-              {
-                icon: FileX2,
-                title: "Dispersión documental",
-                description: "Soportes, contratos y certificaciones repartidos entre carpetas, equipos y personas.",
-              },
-              {
-                icon: Users,
-                title: "Dependencia del equipo administrativo",
-                description: "Si una persona se va o se enferma, la operación se frena o pierde calidad.",
-              },
-              {
-                icon: EyeOff,
-                title: "Poca visibilidad real del negocio",
-                description: "Cuesta saber cuánto se está ganando, qué cursos rinden y dónde se están perdiendo recursos.",
-              },
+              "Matrículas en Excel y WhatsApp",
+              "Certificados que tardan días en emitirse",
+              "Cartera vencida que nadie persigue",
+              "Si falta una persona del equipo, todo se frena",
             ].map((item) => (
-              <div
-                key={item.title}
-                className="flex gap-4 rounded-xl border border-border bg-card p-5"
+              <li
+                key={item}
+                className="flex items-start gap-3 rounded-xl border border-border bg-card p-4"
               >
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-foreground">
-                  <item.icon className="h-5 w-5" />
-                </div>
-                <div>
-                  <h3 className="font-display text-base font-semibold text-foreground">
-                    {item.title}
-                  </h3>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    {item.description}
-                  </p>
-                </div>
-              </div>
+                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
+                <span className="text-base text-foreground">{item}</span>
+              </li>
             ))}
-          </div>
+          </ul>
 
-          <div className="mt-12 rounded-xl border border-primary/30 bg-primary/5 p-6 text-center sm:p-8">
+          <div className="mt-10 rounded-xl border border-primary/30 bg-primary/5 p-6 text-center sm:p-8">
             <p className="font-display text-xl font-semibold text-foreground sm:text-2xl">
-              Cada reproceso, cada retraso y cada validación manual termina afectando margen, tiempo y capacidad de crecimiento.
+              Eso no es un problema comercial. Es un problema operativo —y tiene solución.
             </p>
           </div>
         </div>
