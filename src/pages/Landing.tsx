@@ -720,11 +720,19 @@ export default function Landing() {
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-4 sm:flex-row sm:px-6">
           <div className="flex flex-col items-center gap-3 sm:items-start">
             <Logo className="h-7 w-auto" />
-            <div className="flex flex-col items-center gap-1 text-xs text-muted-foreground sm:items-start">
-              <a href="tel:+573189839896" className="hover:text-foreground transition-colors">
+            <div className="flex flex-col items-center gap-2 text-base font-medium text-foreground sm:items-start sm:text-lg">
+              <a
+                href="https://wa.me/573189839896"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-primary transition-colors"
+              >
                 +57 318 983 9896
               </a>
-              <a href="mailto:hola@alturas360.com" className="hover:text-foreground transition-colors">
+              <a
+                href="mailto:hola@alturas360.com"
+                className="hover:text-primary transition-colors"
+              >
                 hola@alturas360.com
               </a>
             </div>
